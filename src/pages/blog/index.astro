@@ -1,0 +1,250 @@
+---
+// src/pages/blog/index.astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import FeaturedSidebar from "../../components/FeaturedSidebar.astro";
+import AdsSidebar from "../../components/AdsSidebar.astro";
+
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("blog", ({ data }) => !data.draft);
+const posts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const categories = [
+  "Todos",
+  "GCP",
+  "Workspace",
+  "IA",
+  "Ciberseguridad",
+] as const;
+---
+
+<BaseLayout
+  title="Blog — DakyLabs"
+  description="Artículos técnicos sobre Google Cloud Platform, Google Workspace, Inteligencia Artificial y más. Escrito por el equipo de DakyLabs."
+>
+  <Header />
+  <main id="blog-main">
+    <div class="site-two-col" style="padding-top: 3rem;">
+
+      <!-- Columna centro: título + posts -->
+      <div class="site-col-center">
+        <div class="page-hero-inner">
+          <span class="section-label">Knowledge base</span>
+          <h1 id="blog-page-title">Ingeniería.</h1>
+          <p class="page-hero-sub">Guías técnicas, estrategias y lecciones aprendidas.</p>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="filters" role="group" aria-label="Filtrar por categoría">
+          {categories.map((cat) => (
+            <button
+              class:list={["filter-btn", { active: cat === "Todos" }]}
+              data-filter={cat}
+              aria-pressed={cat === "Todos" ? "true" : "false"}
+              id={`filter-${cat.toLowerCase().replace(" ", "-")}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="blog-grid" id="blog-posts-grid" aria-live="polite" style="margin-top: 1.5rem;">
+          {posts.map((post, i) => (
+            <div
+              class="blog-card-wrapper animate-fade-up"
+              data-category={post.data.category}
+              style={`animation-delay: ${i * 0.08}s`}
+            >
+              <BlogCard
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                category={post.data.category}
+                slug={post.id}
+                image={post.data.image}
+              />
+            </div>
+          ))}
+        </div>
+
+        {posts.length === 0 && (
+          <div class="empty-state" aria-live="polite">
+            <p>No hay artículos publicados aún. ¡Pronto habrá contenido!</p>
+          </div>
+        )}
+
+        <!-- CTA -->
+        <section class="blog-cta section-sm" aria-label="Contacto">
+          <div class="blog-cta-inner glass-card">
+            <div>
+              <h3>¿Algo de lo que leíste te generó preguntas?</h3>
+              <p>Escríbeme en Discord. Me gusta hablar de problemas técnicos reales.</p>
+            </div>
+            <a href="https://discord.com/invite/RJtQCFCgy" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="blog-contact-cta">
+              Escribir en Discord →
+            </a>
+          </div>
+        </section>
+
+        <!-- Entradas populares -->
+        <FeaturedSidebar />
+      </div>
+
+      <!-- Columna derecha: anuncios -->
+      <aside class="site-col-right">
+        <AdsSidebar />
+      </aside>
+
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page-hero-inner {
+    padding-bottom: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-hero-inner h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.04em;
+  }
+
+  .page-hero-sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+  }
+
+  /* Filters */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.825rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+  }
+
+  .filter-btn:hover {
+    color: var(--accent);
+    border-color: var(--border-accent);
+    background: var(--accent-subtle);
+  }
+
+  .filter-btn.active {
+    background: var(--accent-subtle);
+    border-color: var(--border-accent);
+    color: var(--accent);
+  }
+
+  /* Blog Grid — mobile-first */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .blog-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .blog-card-wrapper {
+    height: 100%;
+  }
+
+  .blog-card-wrapper[hidden] {
+    display: none;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 4rem;
+    color: var(--text-muted);
+  }
+
+  /* Blog CTA Bar */
+  .blog-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .blog-cta-inner h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .blog-cta-inner p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .blog-cta-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<script>
+  // Category filter
+  const filterBtns =
+    document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cards = document.querySelectorAll<HTMLElement>(".blog-card-wrapper");
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const filter = btn.dataset.filter;
+
+      // Update active state
+      filterBtns.forEach((b) => {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+
+      // Filter cards
+      cards.forEach((card) => {
+        if (filter === "Todos" || card.dataset.category === filter) {
+          card.removeAttribute("hidden");
+        } else {
+          card.setAttribute("hidden", "");
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="530" viewBox="0 0 400 530">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0F1923"/>
+      <stop offset="100%" stop-color="#1C2A38"/>
+    </linearGradient>
+    <radialGradient id="glow2" cx="50%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#C0142A" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#C0142A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="400" height="530" fill="url(#bg2)"/>
+  <rect width="400" height="530" fill="url(#glow2)"/>
+
+  <!-- Líneas diagonales decorativas -->
+  <g stroke="#ffffff" stroke-width="1" opacity="0.04">
+    <line x1="-20" y1="100" x2="420" y2="300"/>
+    <line x1="-20" y1="160" x2="420" y2="360"/>
+    <line x1="-20" y1="220" x2="420" y2="420"/>
+    <line x1="-20" y1="0"   x2="420" y2="200"/>
+  </g>
+
+  <!-- Línea acento superior -->
+  <rect x="0" y="0" width="400" height="4" fill="#C0142A"/>
+
+  <!-- Ícono central — IA / cerebro + chip -->
+  <g transform="translate(200,195)">
+    <circle cx="0" cy="0" r="62" fill="#C0142A" opacity="0.12"/>
+    <circle cx="0" cy="0" r="50" fill="#C0142A" opacity="0.10"/>
+    <!-- Chip cuadrado -->
+    <rect x="-28" y="-28" width="56" height="56" rx="8" fill="none" stroke="#C0142A" stroke-width="4.5"/>
+    <!-- Pins chip -->
+    <line x1="-44" y1="-16" x2="-28" y2="-16" stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-44" y1="0"   x2="-28" y2="0"   stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-44" y1="16"  x2="-28" y2="16"  stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="28"  y1="-16" x2="44"  y2="-16" stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="28"  y1="0"   x2="44"  y2="0"   stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="28"  y1="16"  x2="44"  y2="16"  stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-16" y1="-44" x2="-16" y2="-28" stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="16"  y1="-44" x2="16"  y2="-28" stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-16" y1="28"  x2="-16" y2="44"  stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <line x1="16"  y1="28"  x2="16"  y2="44"  stroke="#C0142A" stroke-width="3" stroke-linecap="round"/>
+    <!-- AI texto dentro del chip -->
+    <text x="0" y="8" text-anchor="middle" font-family="system-ui, monospace" font-size="20" font-weight="800" fill="#ffffff" opacity="0.9">AI</text>
+  </g>
+
+  <!-- Badge ANUNCIO -->
+  <rect x="28" y="330" width="88" height="22" rx="11" fill="#C0142A" opacity="0.9"/>
+  <text x="72" y="345" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="1.5">ANUNCIO</text>
+
+  <!-- Título principal -->
+  <text x="200" y="385" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="800" fill="#ffffff" opacity="0.95">Tu Servicio</text>
+  <text x="200" y="412" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" font-weight="800" fill="#C0142A">De IA Aquí</text>
+
+  <!-- Subtítulo -->
+  <text x="200" y="445" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#ffffff" opacity="0.5">Espacio disponible para tu marca</text>
+
+  <!-- CTA button -->
+  <rect x="110" y="468" width="180" height="38" rx="6" fill="#C0142A"/>
+  <text x="200" y="492" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#ffffff" letter-spacing="0.5">Saber más →</text>
+
+  <!-- Línea inferior -->
+  <rect x="0" y="526" width="400" height="4" fill="#C0142A" opacity="0.4"/>
+</svg>

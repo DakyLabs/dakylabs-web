@@ -1,0 +1,278 @@
+---
+// Header.astro
+const navLinks = [
+  { label: "Inicio", href: "/" },
+  { label: "Bio", href: "/bio" },
+  { label: "Blog", href: "/blog" },
+  { label: "Eventos", href: "/eventos" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <!-- Logo -->
+    <a href="/" class="logo" aria-label="DakyLabs — Inicio">
+      <span class="logo-mark">
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 28 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <rect width="28" height="28" rx="6" fill="#c0142a"></rect>
+          <path
+            d="M8 20V8h5.5c3.87 0 6.5 2.46 6.5 6s-2.63 6-6.5 6H8zm3-2.6h2.4c2.2 0 3.6-1.3 3.6-3.4s-1.4-3.4-3.6-3.4H11v6.8z"
+            fill="white"></path>
+        </svg>
+      </span>
+      <span class="logo-text">akyLabs</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="nav-desktop" aria-label="Navegación principal">
+      <ul role="list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={[
+                  "nav-link",
+                  {
+                    active:
+                      currentPath === link.href ||
+                      (link.href !== "/" && currentPath.startsWith(link.href)),
+                  },
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- CTA -->
+    <a
+      href="mailto:contacto@dakylabs.com"
+      class="btn btn-primary header-cta"
+      id="header-cta-btn"
+    >
+      Contacto
+    </a>
+
+    <!-- Mobile Menu Toggle -->
+    <input
+      type="checkbox"
+      id="mobile-menu-toggle"
+      class="sr-only"
+      aria-label="Menú"
+    />
+    <label for="mobile-menu-toggle" class="hamburger" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <!-- Mobile Nav -->
+    <nav class="nav-mobile" aria-label="Navegación móvil">
+      <ul role="list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={[
+                  "nav-link",
+                  {
+                    active:
+                      currentPath === link.href ||
+                      (link.href !== "/" && currentPath.startsWith(link.href)),
+                  },
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href="mailto:contacto@dakylabs.com"
+            class="btn btn-primary"
+            style="width:100%; justify-content:center; margin-top:0.5rem"
+          >
+            Contacto
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(250, 247, 242, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: border-color 0.3s ease;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 72px;
+  }
+
+  /* Logo */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.1rem; /* Tighter gap to merge with D icon */
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-mark {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo-text {
+    font-size: 1.3rem; /* Slightly larger to match the height of the D icon better */
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    transition: color 0.2s;
+  }
+
+  .logo:hover .logo-text {
+    color: var(--accent);
+  }
+
+  /* Desktop Nav */
+  .nav-desktop {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-desktop ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #4B5563;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    letter-spacing: 0.01em;
+  }
+
+  .nav-link:hover {
+    color: #111111;
+    background: #F0EAE0;
+  }
+
+  .nav-link.active {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Header CTA */
+  .header-cta {
+    padding: 0.55rem 1.4rem;
+    font-size: 1.15rem; /* Matches nav links */
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #4B5563;
+    border-radius: 2px;
+    transition: var(--transition);
+    transform-origin: center;
+  }
+
+  /* Mobile Nav */
+  .nav-mobile {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 1rem 1.5rem 1.5rem;
+    z-index: 99;
+  }
+
+  .nav-mobile ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .nav-mobile .nav-link {
+    font-size: 1rem;
+    padding: 0.65rem 0.85rem;
+  }
+
+  /* Mobile toggle logic */
+  #mobile-menu-toggle:checked ~ .nav-mobile {
+    display: block;
+  }
+
+  #mobile-menu-toggle:checked ~ label.hamburger span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  #mobile-menu-toggle:checked ~ label.hamburger span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  #mobile-menu-toggle:checked ~ label.hamburger span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .nav-desktop {
+      display: none;
+    }
+    .header-cta {
+      display: none;
+    }
+    .hamburger {
+      display: flex;
+    }
+  }
+</style>

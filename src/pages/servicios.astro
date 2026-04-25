@@ -1,0 +1,440 @@
+---
+// src/pages/servicios.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FeaturedSidebar from "../components/FeaturedSidebar.astro";
+import AdsSidebar from "../components/AdsSidebar.astro";
+
+const areas = [
+  {
+    id: "opensource",
+    tag: "Open Source",
+    title: "Proyectos y modelos abiertos",
+    description:
+      "Herramientas, scripts y modelos que construyo y publico en GitHub. Si lo uso, lo comparto.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/>
+    </svg>`,
+    items: [
+      {
+        title: "Scripts y automatizaciones",
+        desc: "Utilidades de GCP, scripts de Workspace y herramientas de línea de comando que resuelven problemas reales.",
+      },
+      {
+        title: "Modelos y pipelines",
+        desc: "Pipelines de IA construidos con modelos Open Source o de Google.",
+      },
+      {
+        title: "Integraciones",
+        desc: "Conectores y adaptadores entre servicios de Google Cloud y otras plataformas.",
+      },
+      {
+        title: "Documentación",
+        desc: "Cada proyecto incluye contexto de por qué fue construido.",
+      },
+    ],
+    link: "https://github.com/DakyLabs/",
+    linkLabel: "Ver en GitHub",
+  },
+  {
+    id: "workspace",
+    tag: "Workspace",
+    title: "Google Workspace y ecosistema",
+    description:
+      "Automatizaciones con Apps Script, aplicaciones con AppSheet e integraciones dentro del ecosistema de Google Workspace. El poder real de Workspace está en lo que puedes construir encima.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h12M6 12h8"/>
+    </svg>`,
+    items: [
+      {
+        title: "Apps Script",
+        desc: "Automatizaciones sobre Sheets, Docs, Gmail y Calendar. Flujos que antes requerían humanos.",
+      },
+      {
+        title: "AppSheet",
+        desc: "Aplicaciones sin código sobre datos de Sheets o BigQuery. Operaciones internas sin necesidad de desarrollo tradicional.",
+      },
+      {
+        title: "Gemini for Workspace",
+        desc: "Integraciones con los modelos de Gemini dentro del flujo de trabajo de la organización.",
+      },
+      {
+        title: "Administración avanzada",
+        desc: "Configuraciones de seguridad, DLP, políticas de acceso y auditoría que la mayoría ignora.",
+      },
+    ],
+    link: null,
+    linkLabel: null,
+  },
+  {
+    id: "cloud",
+    tag: "GCP",
+    title: "Infraestructura y cloud",
+    description:
+      "Arquitecturas en Google Cloud, optimización de costos y automatización de infraestructura. Lo que construyo aquí tiene que funcionar en producción, no solo en demos.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+    </svg>`,
+    items: [
+      {
+        title: "Arquitectura cloud-native",
+        desc: "Cloud Run, GKE, Cloud Functions. La tecnología correcta para cada caso.",
+      },
+      {
+        title: "Costos y optimización",
+        desc: "Auditorías de factura y reducción de desperdicio. La mayoría del ahorro viene de revisar lo que ya existe.",
+      },
+      {
+        title: "IaC con Terraform",
+        desc: "Infraestructura como código, versionada y reproducible.",
+      },
+      {
+        title: "Observabilidad",
+        desc: "Cloud Monitoring, alertas y dashboards.",
+      },
+    ],
+    link: null,
+    linkLabel: null,
+  },
+  {
+    id: "chatbots",
+    tag: "Chatbots & IA",
+    title: "Chatbots e IA en producción",
+    description:
+      "Agentes conversacionales con Dialogflow CX, orquestación en Cloud Run y LLMs locales para casos que requieren datos privados. Cuando un chatbot tiene que resolver de verdad, no solo sonar inteligente.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="8.5" cy="10" r="1"/><circle cx="15.5" cy="10" r="1"/><path d="M12 13v.01"/>
+    </svg>`,
+    items: [
+      {
+        title: "Dialogflow CX",
+        desc: "Diseño de flujos conversacionales complejos con intents, pages y webhooks que escalan.",
+      },
+      {
+        title: "Integración con Cloud Run",
+        desc: "Backends que consumen APIs, bases de datos y modelos generativos según el contexto.",
+      },
+      {
+        title: "LLMs locales con RAG",
+        desc: "Modelos locales (LM Studio, Ollama) con retrieval para datos privados. Útil cuando el dato no puede salir del perímetro.",
+      },
+      {
+        title: "Integraciones multicanal",
+        desc: "Web, WhatsApp, Telegram y plataformas internas conectadas al mismo agente.",
+      },
+    ],
+    link: null,
+    linkLabel: null,
+  },
+];
+---
+
+<BaseLayout
+  title="Lo que construyo — DakyLabs"
+  description="Proyectos open source, integraciones con Google Workspace y herramientas de infraestructura cloud."
+>
+  <Header />
+  <main id="proyectos-main">
+    <div class="site-two-col" style="padding-top: 3rem;">
+      <div class="site-col-center">
+        <div class="page-hero-inner">
+          <span class="section-label">Proyectos</span>
+          <h1 id="proyectos-title">Lo que construyo.</h1>
+          <p class="page-hero-sub">
+            Open source, integraciones con el ecosistema de Google Workspace y
+            herramientas sobre GCP. Si lo construí y tiene utilidad general, está
+            en GitHub.
+          </p>
+        </div>
+
+    <section
+      class="section"
+      style="padding-top: 0"
+      aria-label="Áreas de trabajo"
+    >
+      <div>
+        <div class="areas-list">
+          {
+            areas.map((area, i) => (
+              <article
+                class="area-block glass-card animate-fade-up"
+                id={area.id}
+                aria-labelledby={`area-title-${area.id}`}
+                style={`animation-delay: ${i * 0.15}s`}
+              >
+                <div class="area-header">
+                  <div class="area-icon-wrap" aria-hidden="true">
+                    <div class="area-icon" set:html={area.icon} />
+                  </div>
+                  <div>
+                    <span class="badge">{area.tag}</span>
+                    <h2 id={`area-title-${area.id}`} class="area-title">
+                      {area.title}
+                    </h2>
+                  </div>
+                </div>
+
+                <p class="area-desc">{area.description}</p>
+
+                <div class="area-items-grid">
+                  {area.items.map((item) => (
+                    <div class="area-item">
+                      <div class="area-item-dot" aria-hidden="true" />
+                      <div>
+                        <h4 class="item-title">{item.title}</h4>
+                        <p class="item-desc">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {area.link && (
+                  <a
+                    href={area.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-ghost area-link"
+                    id={`link-${area.id}`}
+                  >
+                    {area.linkLabel} →
+                  </a>
+                )}
+
+                <div class="area-accent-line" aria-hidden="true" />
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sm" aria-label="Contacto">
+      <div class="container">
+        <div class="bottom-cta glass-card">
+          <div class="bottom-cta-glow" aria-hidden="true"></div>
+          <span class="section-label">Colaborar</span>
+          <h2 class="bottom-cta-title">¿Tienes algo en mente?</h2>
+          <p>
+            Si estás construyendo algo sobre GCP o Workspace y quieres hablar,
+            Discord es el lugar más directo para encontrarme.
+          </p>
+          <a
+            href="https://discord.com/invite/RJtQCFCgy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+            id="proyectos-final-cta"
+            style="display:flex;align-items:center;gap:0.6rem;"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"
+              ></path>
+            </svg>
+            Escribirme en Discord
+          </a>
+        </div>
+      </div>
+    </section>
+
+        <FeaturedSidebar />
+      </div>{/* end .site-col-center */}
+      <aside class="site-col-right">
+        <AdsSidebar />
+      </aside>
+    </div>{/* end .site-two-col */}
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .page-hero-inner {
+    padding-bottom: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-hero-inner h1 {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.04em;
+  }
+
+  .page-hero-sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 55ch;
+    line-height: 1.75;
+  }
+
+  .areas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .area-block {
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .area-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .area-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    border: 1px solid var(--border-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  .area-icon :global(svg) {
+    width: 26px;
+    height: 26px;
+  }
+
+  .area-title {
+    font-size: clamp(1.3rem, 3vw, 1.75rem);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    letter-spacing: -0.025em;
+  }
+
+  .area-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    max-width: 68ch;
+    margin-bottom: 2rem;
+  }
+
+  .area-items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .area-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .area-item-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .item-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+  }
+
+  .item-desc {
+    font-size: 0.825rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .area-link {
+    align-self: flex-start;
+    display: inline-flex;
+  }
+
+  .area-accent-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--accent),
+      transparent
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .area-block:hover .area-accent-line {
+    opacity: 1;
+  }
+
+  .bottom-cta {
+    text-align: center;
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bottom-cta-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 60% 60% at 50% 50%,
+      rgba(192, 20, 42, 0.06) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .bottom-cta-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    letter-spacing: -0.03em;
+  }
+
+  .bottom-cta p {
+    max-width: 50ch;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .bottom-cta .section-label,
+  .bottom-cta-title,
+  .bottom-cta .btn {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .area-block {
+      padding: 1.75rem;
+    }
+
+    .area-items-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .bottom-cta {
+      padding: 2.5rem 1.75rem;
+    }
+  }
+</style>

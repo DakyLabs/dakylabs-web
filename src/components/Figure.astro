@@ -1,0 +1,16 @@
+---
+// Figure.astro — figura numerada para uso en .mdx o páginas Astro
+interface Props {
+  num: string | number;
+  src: string;
+  alt: string;
+  caption: string;
+}
+
+const { num, src, alt, caption } = Astro.props;
+---
+
+<figure class="blog-figure">
+  <img src={src} alt={alt} loading="lazy" width="800" height="450" />
+  <figcaption><strong>Figura {num}:</strong> {caption}</figcaption>
+</figure>

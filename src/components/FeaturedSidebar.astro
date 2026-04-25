@@ -1,0 +1,47 @@
+---
+// FeaturedSidebar.astro — widget de entradas destacadas para la columna central
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const featuredPosts = [
+  ...sorted.filter((p) => p.data.featured),
+  ...sorted.filter((p) => !p.data.featured),
+].slice(0, 7);
+---
+
+<div class="fs-widget">
+  <p class="fs-label">ENTRADAS POPULARES</p>
+  <ul class="fs-list" role="list">
+    {featuredPosts.map((post) => (
+      <li class="fs-item">
+        <a href={`/blog/${post.id}`} class="fs-entry">
+          <div class="fs-thumb">
+            {post.data.image ? (
+              <img
+                src={post.data.image}
+                alt={post.data.title}
+                loading="lazy"
+                width="100"
+                height="80"
+              />
+            ) : (
+              <div class="fs-thumb-placeholder" data-cat={post.data.category} />
+            )}
+          </div>
+          <div class="fs-text">
+            <span class="fs-title">{post.data.title}</span>
+            <p class="fs-desc">{post.data.description}</p>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <a href="/blog" class="fs-ver-todos">
+    Ver todos los artículos
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </a>
+</div>

@@ -1,0 +1,515 @@
+---
+// BlogPostLayout.astro
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import FeaturedSidebar from '../components/FeaturedSidebar.astro';
+import AdsSidebar from '../components/AdsSidebar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  category: string;
+  author?: string;
+  image?: string;
+  headings?: Array<{ depth: number; slug: string; text: string }>;
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  category,
+  author = 'DakyLabs',
+  image,
+  headings = [],
+} = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('es-MX', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<BaseLayout title={`${title} — DakyLabs Blog`} description={description}>
+  <Header />
+
+  <main class="blog-post-page">
+    <div class="site-three-col blog-post-three-col">
+
+      <!-- Columna izquierda: TOC + más leídos -->
+      <aside class="site-col-left blog-toc-sidebar" aria-label="Tabla de contenidos">
+        <TableOfContents headings={headings} />
+
+      </aside>
+
+      <!-- Columna centro: artículo -->
+      <div class="site-col-center">
+        <article class="blog-article" aria-label={title}>
+          <!-- Back link -->
+          <a href="/blog" class="back-link" id="blog-back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Todos los artículos
+          </a>
+
+          <!-- Article Header -->
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="badge">{category}</span>
+              <span class="meta-separator" aria-hidden="true">·</span>
+              <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+              <span class="meta-separator" aria-hidden="true">·</span>
+              <span>{author}</span>
+            </div>
+
+            <h1 class="article-title">{title}</h1>
+            <p class="article-description">{description}</p>
+          </header>
+
+          <div class="divider"></div>
+
+          {image && (
+            <div class="article-cover">
+              <img src={image} alt={title} loading="eager" width="720" height="405" />
+            </div>
+          )}
+
+          <!-- Mobile TOC (collapsible, only visible ≤900px) -->
+          {headings.filter(h => h.depth === 2 || h.depth === 3).length > 0 && (
+            <details class="mobile-toc">
+              <summary class="mobile-toc-summary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <line x1="3" y1="12" x2="16" y2="12"/>
+                  <line x1="3" y1="18" x2="11" y2="18"/>
+                </svg>
+                En este artículo
+                <svg class="mobile-toc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </summary>
+              <nav>
+                <ol class="mobile-toc-list" role="list">
+                  {headings.filter(h => h.depth === 2 || h.depth === 3).map(heading => (
+                    <li class:list={['mobile-toc-item', { 'mobile-toc-h3': heading.depth === 3 }]}>
+                      <a href={`#${heading.slug}`} class="mobile-toc-link">{heading.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            </details>
+          )}
+
+          <!-- Content -->
+          <div class="prose">
+            <slot />
+          </div>
+
+          <!-- Share buttons -->
+          <div class="share-buttons">
+            <span class="share-label">Compartir:</span>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${canonicalURL}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-btn"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              X / Twitter
+            </a>
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${canonicalURL}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="share-btn"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </div>
+
+          <!-- Author bio -->
+          <div class="author-bio">
+            <img
+              src="/images/santino-avatar.jpg"
+              alt="Santino Suntaxi"
+              width="56"
+              height="56"
+              loading="lazy"
+              class="author-avatar"
+            />
+            <div class="author-info">
+              <strong class="author-name">Santino Suntaxi</strong>
+              <p class="author-desc">Cloud & AI Engineer. Escribo sobre GCP, Workspace e IA en producción. Founder de DakyLabs.</p>
+            </div>
+          </div>
+
+          <!-- Comments (Giscus) -->
+          <section class="comments-section" aria-label="Comentarios">
+            <h3>Comentarios</h3>
+            <script src="https://giscus.app/client.js"
+              data-repo="DakyLabs/dakylabs-web"
+              data-repo-id="R_kgDOSB_P9Q"
+              data-category="Comentarios"
+              data-category-id="DIC_kwDOSB_P9c4C7GGU"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="bottom"
+              data-theme="light"
+              data-lang="es"
+              crossorigin="anonymous"
+              async>
+            </script>
+            <p class="comments-discord-alt">
+              ¿Preferés no usar GitHub?
+              <a href="https://discord.com/invite/RJtQCFCgy" target="_blank" rel="noopener noreferrer">Únete al Discord</a>
+              y comenta ahí.
+            </p>
+          </section>
+
+          <!-- Entradas populares -->
+          <FeaturedSidebar />
+
+          <!-- Footer nav -->
+          <div class="article-footer-nav">
+            <a href="/blog" class="btn btn-ghost" id="blog-more-articles-btn">
+              ← Ver más artículos
+            </a>
+            <a href="https://discord.com/invite/RJtQCFCgy" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="article-contact-btn">
+              Unirte al Discord
+            </a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Columna derecha: anuncios -->
+      <aside class="site-col-right">
+        <AdsSidebar />
+      </aside>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .blog-post-page {
+    padding-top: calc(72px + 2.5rem);
+    padding-bottom: 6rem;
+    min-height: 100vh;
+  }
+
+  /* Ajuste del layout de 3 columnas para posts: sin padding-bottom extra */
+  .blog-post-three-col {
+    padding-bottom: 0;
+  }
+
+  /* TOC Sidebar — sin overflow propio, el sticky lo maneja site-col-left */
+  .blog-toc-sidebar {
+    padding-top: 0.5rem;
+  }
+
+  /* Anular el sticky del componente TableOfContents dentro del sidebar */
+  .blog-toc-sidebar :global(.toc) {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+  }
+
+
+
+  /* Article — min-width: 0 fixes grid blowout caused by prose max-width: 70ch */
+  .blog-article {
+    min-width: 0;
+  }
+
+  /* Cover image */
+  .article-cover {
+    margin-bottom: 2.5rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .article-cover img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Article */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.825rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-bottom: 2.5rem;
+  }
+  .back-link:hover { color: var(--text-primary); }
+
+  /* Article Header */
+  .article-header {
+    margin-bottom: 2rem;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.825rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+
+  .meta-separator {
+    color: var(--border-subtle);
+  }
+
+  .article-title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .article-description {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 60ch;
+  }
+
+  /* Footer nav */
+  .article-footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+  }
+
+  /* Mobile TOC */
+  .mobile-toc {
+    display: none;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .mobile-toc-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  .mobile-toc-summary::-webkit-details-marker { display: none; }
+
+  .mobile-toc-chevron {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  details[open] .mobile-toc-chevron {
+    transform: rotate(180deg);
+  }
+
+  .mobile-toc-list {
+    list-style: none;
+    padding: 0.5rem 1rem 1rem;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .mobile-toc-item { line-height: 1.4; }
+  .mobile-toc-h3 { padding-left: 1rem; }
+
+  .mobile-toc-link {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.45rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    line-height: 1.5;
+  }
+  .mobile-toc-link:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.05);
+  }
+  .mobile-toc-link:active {
+    color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    .mobile-toc {
+      display: block;
+    }
+
+    /* Ocultar sidebar TOC en móvil — el mobile-toc lo reemplaza */
+    .blog-toc-sidebar {
+      display: none;
+    }
+  }
+
+  /* Share buttons */
+  .share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .share-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 0.25rem;
+  }
+
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+  }
+
+  .share-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Author bio */
+  .author-bio {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-top: 2rem;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .author-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid var(--border-subtle);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+  }
+
+  .author-desc {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Comments section */
+  .comments-section {
+    margin-top: 3.5rem;
+    padding-top: 2rem;
+    border-top: 3px solid var(--accent);
+  }
+
+  .comments-section h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .comments-discord-alt {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .comments-discord-alt a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .comments-discord-alt a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .blog-post-page {
+      padding-top: calc(72px + 1.5rem);
+      padding-bottom: 4rem;
+    }
+
+    .article-footer-nav {
+      flex-direction: column;
+    }
+
+    .article-footer-nav .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .author-bio {
+      align-items: flex-start;
+    }
+  }
+</style>

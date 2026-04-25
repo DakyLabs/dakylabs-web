@@ -1,0 +1,371 @@
+---
+// HeroSpace.astro — starfield + nebulosa roja detrás del robot (Three.js desde CDN)
+---
+
+<canvas id="hero-space" aria-hidden="true"></canvas>
+
+<script is:inline type="module">
+  import * as THREE from '/vendor/three.module.js';
+
+  const canvas = document.getElementById('hero-space');
+  if (canvas) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = matchMedia('(max-width: 768px)').matches;
+
+    const scene = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(
+      60,
+      canvas.clientWidth / canvas.clientHeight,
+      0.1,
+      200,
+    );
+    cam.position.z = 8;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      powerPreference: 'low-power',
+    });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.1;
+
+    // ── Iluminación ───────────────────────────────────────────────
+    // Sol (luz direccional) — viene de arriba-derecha, crea el terminador día/noche
+    const sun = new THREE.DirectionalLight(0xfff0e0, 2.6);
+    sun.position.set(5, 3, 4);
+    scene.add(sun);
+    // Relleno tenue con tono rojizo — simula la luz reflejada del espacio/nebulosa
+    scene.add(new THREE.AmbientLight(0x2a0608, 0.35));
+
+    // ── Sprite circular con gradiente radial — convierte los puntos
+    //    de cuadrados en estrellas/motas con glow suave ─────────────
+    const makeStarSprite = () => {
+      const size = 64;
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const ctx = c.getContext('2d');
+      const g = ctx.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+      g.addColorStop(0.0, 'rgba(255,255,255,1)');
+      g.addColorStop(0.2, 'rgba(255,255,255,0.85)');
+      g.addColorStop(0.5, 'rgba(255,255,255,0.25)');
+      g.addColorStop(1.0, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, size, size);
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    };
+    const pointSprite = makeStarSprite();
+
+    // ── Flow starfield: estrellas viajando hacia la cámara ───────────
+    // Técnica del intro de iss-sim.spacex.com: cada estrella tiene un Z
+    // aleatorio y una velocity, cada frame avanza hacia zNear, al cruzarlo
+    // se recicla al fondo. Crea la sensación de volar por el espacio.
+    // Cada capa tiene su propio rango Z: far = backdrop profundo casi
+    // estático, near = capa rápida que da la sensación de movimiento.
+    const SPREAD = 24;
+
+    // Paleta estilo iss-sim: mayoría blancas, algunas azules (gigantes),
+    // algunas naranjas (enanas) — da el look galáctico real.
+    const STAR_COLORS = [
+      new THREE.Color(0xffffff), // blanco
+      new THREE.Color(0xffffff),
+      new THREE.Color(0xffffff),
+      new THREE.Color(0xa9c9ff), // azul frío
+      new THREE.Color(0xa9c9ff),
+      new THREE.Color(0xffd9a0), // naranja cálido
+    ];
+
+    const createFlowField = (count, baseSize, zNear, zFar) => {
+      const positions = new Float32Array(count * 3);
+      const colors = new Float32Array(count * 3);
+      const velocities = new Float32Array(count);
+      for (let i = 0; i < count; i++) {
+        positions[i * 3]     = (Math.random() - 0.5) * SPREAD * 2;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * SPREAD * 2;
+        positions[i * 3 + 2] = zNear - Math.random() * (zNear - zFar);
+        velocities[i]        = 0.04 + Math.random() * 0.06;
+        const c = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
+        colors[i * 3]     = c.r;
+        colors[i * 3 + 1] = c.g;
+        colors[i * 3 + 2] = c.b;
+      }
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geom.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      const mat = new THREE.PointsMaterial({
+        size: baseSize,
+        map: pointSprite,
+        vertexColors: true,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 1.0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const points = new THREE.Points(geom, mat);
+      scene.add(points);
+      return { geom, positions, velocities, count, zNear, zFar };
+    };
+
+    // Ajustado al ritmo del intro de iss-sim: velocidad global lenta,
+    // capas moderadas — el robot es el protagonista, el espacio acompaña.
+    const farField  = createFlowField(isMobile ? 900 : 1600, 0.22, 9, -120);
+    const nearField = createFlowField(isMobile ? 100 : 200, 0.45, 9, -40);
+
+    const updateFlowField = (f, speedMult) => {
+      const { positions, velocities, count, geom, zNear, zFar } = f;
+      for (let i = 0; i < count; i++) {
+        positions[i * 3 + 2] += velocities[i] * speedMult;
+        if (positions[i * 3 + 2] > zNear) {
+          positions[i * 3 + 2] = zFar;
+          positions[i * 3]     = (Math.random() - 0.5) * SPREAD * 2;
+          positions[i * 3 + 1] = (Math.random() - 0.5) * SPREAD * 2;
+        }
+      }
+      geom.attributes.position.needsUpdate = true;
+    };
+
+    // ── Planeta Daky: Marte realista lejano en la esquina inferior
+    //    derecha. Textura NASA/USGS MOLA (dominio público). ─────────
+    const planetR = isMobile ? 1.0 : 1.3;
+    const planetGroup = new THREE.Group();
+    planetGroup.position.set(
+      isMobile ? 5.5 : 9,
+      isMobile ? -3 : -4.2,
+      isMobile ? -11 : -16,
+    );
+    planetGroup.rotation.z = 0.42; // inclinación axial de Marte (~25°)
+    scene.add(planetGroup);
+
+    const texLoader = new THREE.TextureLoader();
+    const marsTex = texLoader.load('/vendor/planet/mars-color.jpg');
+    marsTex.colorSpace = THREE.SRGBColorSpace;
+    marsTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+    const planet = new THREE.Mesh(
+      new THREE.SphereGeometry(planetR, isMobile ? 48 : 64, isMobile ? 32 : 48),
+      new THREE.MeshStandardMaterial({
+        map: marsTex,
+        color: 0xff3826,      // tinte rojo fuerte — multiplica la textura
+        emissive: 0x3a0408,   // base emissive roja tenue para que no se apague en sombras
+        emissiveIntensity: 0.5,
+        roughness: 0.95,
+        metalness: 0.0,
+      }),
+    );
+    planetGroup.add(planet);
+
+    // ── Nebulosa roja: ambiente muy sutil — solo un tinte cósmico ──
+    const nebN = isMobile ? 50 : 90;
+    const nebPos = new Float32Array(nebN * 3);
+    for (let i = 0; i < nebN; i++) {
+      const r = 6 + Math.random() * 8;
+      const t = Math.random() * Math.PI * 2;
+      const p = Math.acos(2 * Math.random() - 1);
+      nebPos[i * 3]     = r * Math.sin(p) * Math.cos(t) * 1.1;
+      nebPos[i * 3 + 1] = r * Math.sin(p) * Math.sin(t) * 0.55;
+      nebPos[i * 3 + 2] = r * Math.cos(p) * 0.7 - 2;
+    }
+    const nebGeom = new THREE.BufferGeometry();
+    nebGeom.setAttribute('position', new THREE.BufferAttribute(nebPos, 3));
+    const nebula = new THREE.Points(
+      nebGeom,
+      new THREE.PointsMaterial({
+        color: 0xc01a30,
+        size: 0.5,
+        map: pointSprite,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.14,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    scene.add(nebula);
+
+    // ── Shooting stars: pool de 2 meteoritos reutilizables (con cabeza) ──
+    const SHOOT_COUNT = 2;
+    const shootingStars = [];
+    for (let i = 0; i < SHOOT_COUNT; i++) {
+      const positions = new Float32Array(6);
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const tailMat = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const line = new THREE.Line(geom, tailMat);
+
+      // Cabeza brillante — punto de luz grande que encabeza la estela
+      const headGeom = new THREE.BufferGeometry();
+      headGeom.setAttribute('position', new THREE.BufferAttribute(new Float32Array([0, 0, 0]), 3));
+      const headMat = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 1.6,
+        map: pointSprite,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const head = new THREE.Points(headGeom, headMat);
+      line.add(head); // la cabeza hereda la transform de la línea
+
+      line.visible = false;
+      scene.add(line);
+      shootingStars.push({
+        line, tailMat, headMat, startTime: -1,
+        lifetime: 0,
+        startPos: new THREE.Vector3(),
+        endPos: new THREE.Vector3(),
+      });
+    }
+
+    const launchShootingStar = (ss, time) => {
+      // Desde fuera-arriba hacia abajo-fuera, diagonal
+      const fromLeft = Math.random() < 0.5;
+      const x0 = (fromLeft ? -1 : 1) * (12 + Math.random() * 6);
+      const y0 = 5 + Math.random() * 7;
+      const z0 = -4 + Math.random() * 4;
+      ss.startPos.set(x0, y0, z0);
+
+      const travel = 18 + Math.random() * 8;
+      const dx = (fromLeft ? 1 : -1) * travel * (0.6 + Math.random() * 0.3);
+      const dy = -travel * (0.5 + Math.random() * 0.3);
+      ss.endPos.set(x0 + dx, y0 + dy, z0);
+
+      // Actualizar geometría: head en (0,0,0), tail a lo largo de -dir * tailLen
+      const dir = new THREE.Vector3().subVectors(ss.endPos, ss.startPos).normalize();
+      const tailLen = 5 + Math.random() * 2.5;
+      const positions = ss.line.geometry.attributes.position.array;
+      positions[0] = 0;                       positions[1] = 0;                       positions[2] = 0;
+      positions[3] = -dir.x * tailLen;        positions[4] = -dir.y * tailLen;        positions[5] = -dir.z * tailLen;
+      ss.line.geometry.attributes.position.needsUpdate = true;
+
+      ss.lifetime = 1.1 + Math.random() * 0.5;
+      ss.startTime = time;
+      ss.line.visible = true;
+    };
+
+    let nextShootAt = 2.0;
+    const updateShootingStars = (t) => {
+      if (t > nextShootAt) {
+        const free = shootingStars.find((s) => s.startTime < 0);
+        if (free) launchShootingStar(free, t);
+        nextShootAt = t + 3 + Math.random() * 3; // cada 3–6 segundos
+      }
+      for (const ss of shootingStars) {
+        if (ss.startTime < 0) continue;
+        const elapsed = t - ss.startTime;
+        if (elapsed > ss.lifetime) {
+          ss.startTime = -1;
+          ss.line.visible = false;
+          ss.tailMat.opacity = 0;
+          ss.headMat.opacity = 0;
+          continue;
+        }
+        const p = elapsed / ss.lifetime;
+        ss.line.position.lerpVectors(ss.startPos, ss.endPos, p);
+        // Fade-in 10%, fade-out 25%
+        const fade = p < 0.1 ? p / 0.1 : p > 0.75 ? (1 - p) / 0.25 : 1;
+        ss.tailMat.opacity = fade;
+        ss.headMat.opacity = fade; // cabeza con misma curva — sprite aditivo da el glow extra
+      }
+    };
+
+    // ── Parallax del mouse ────────────────────────────────────────────
+    let targetX = 0, targetY = 0;
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        const nx = (e.clientX / innerWidth) * 2 - 1;
+        const ny = (e.clientY / innerHeight) * 2 - 1;
+        targetX = ny * 0.05;
+        targetY = nx * 0.1;
+      },
+      { passive: true },
+    );
+
+    // ── Resize ────────────────────────────────────────────────────────
+    const resize = () => {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      cam.aspect = w / h;
+      cam.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    };
+    window.addEventListener('resize', resize);
+
+    // ── Animación ─────────────────────────────────────────────────────
+    let rafId = 0, paused = false;
+    const clock = new THREE.Clock();
+    const loop = () => {
+      if (paused) return;
+      const t = clock.getElapsedTime();
+      updateFlowField(farField, 0.15);
+      updateFlowField(nearField, 0.40);
+      updateShootingStars(t);
+      nebula.rotation.y = -t * 0.025;
+      nebula.rotation.z = t * 0.012;
+      planet.rotation.y = t * 0.18;
+      scene.rotation.x += (targetX - scene.rotation.x) * 0.04;
+      scene.rotation.y += (targetY - scene.rotation.y) * 0.04;
+      renderer.render(scene, cam);
+      rafId = requestAnimationFrame(loop);
+    };
+
+    if (reduced) {
+      renderer.render(scene, cam);
+    } else {
+      loop();
+    }
+
+    // Pausa cuando la pestaña está oculta
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        paused = true;
+        cancelAnimationFrame(rafId);
+      } else if (!reduced) {
+        paused = false;
+        loop();
+      }
+    });
+
+    // Pausa cuando el hero sale del viewport (ahorra batería al scrollear)
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) {
+            paused = true;
+            cancelAnimationFrame(rafId);
+          } else if (!reduced && !document.hidden) {
+            paused = false;
+            loop();
+          }
+        }
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(canvas);
+  }
+</script>
+
+<style>
+  #hero-space {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>

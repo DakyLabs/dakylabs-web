@@ -1,0 +1,545 @@
+---
+// src/pages/bio.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FeaturedSidebar from "../components/FeaturedSidebar.astro";
+import AdsSidebar from "../components/AdsSidebar.astro";
+
+const areas = [
+  {
+    id: "opensource",
+    tag: "Open Source",
+    title: "Proyectos y modelos abiertos",
+    description:
+      "Herramientas, scripts y modelos que construyo y publico en GitHub. Si lo uso, lo comparto.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.7 18 5 18 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/>
+    </svg>`,
+    items: ["Scripts y automatizaciones GCP", "Pipelines de IA open source", "Integraciones entre servicios", "Documentación de aprendizajes y soluciones"],
+    link: "https://github.com/DakyLabs/",
+    linkLabel: "Ver en GitHub →",
+  },
+  {
+    id: "workspace",
+    tag: "Workspace",
+    title: "Google Workspace y ecosistema",
+    description:
+      "Automaciones con Apps Script, aplicaciones con AppSheet e integraciones dentro del ecosistema de Google. El poder real de Workspace está en lo que puedes construir encima.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h12M6 12h8"/>
+    </svg>`,
+    items: ["Apps Script sobre Sheets, Docs, Gmail", "AppSheet", "Gemini for Workspace integrado", "Administración y seguridad en Workspace"],
+    link: null,
+    linkLabel: null,
+  },
+  {
+    id: "cloud",
+    tag: "GCP",
+    title: "Infraestructura y cloud",
+    description:
+      "Arquitecturas en Google Cloud, optimización de costos y automatización de infraestructura., no solo en demos.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+    </svg>`,
+    items: ["Cloud Run, GKE, Cloud Functions", "Control de costos", "IaC con Terraform versionado", "Cloud Monitoring y observabilidad"],
+    link: null,
+    linkLabel: null,
+  },
+];
+---
+
+<BaseLayout
+  title="Bio — DakyLabs"
+  description="Santino Suntaxi — Cloud & Automation Engineer con más de 12 años de experiencia en GCP, Workspace e IA. Founder de DakyLabs."
+>
+  <Header />
+  <main id="bio-main">
+    <div class="site-two-col" style="padding-top: 3rem;">
+      <div class="site-col-center">
+
+        <!-- Hero intro -->
+        <div class="page-hero-inner">
+          <span class="section-label">Sobre mí</span>
+          <h1 id="bio-page-title">Bio.</h1>
+        </div>
+
+        <!-- ══ BIO COMPLETA ══════════════════════════════════════ -->
+        <section class="bio-section" aria-label="Biografía">
+          <div class="bio-container animate-fade-up">
+
+            <div class="bio-header">
+              <div class="bio-avatar">
+                <img
+                  src="/images/santino-avatar.jpg"
+                  alt="Santino Suntaxi"
+                  width="96"
+                  height="96"
+                  loading="eager"
+                />
+              </div>
+              <div class="bio-header-text">
+                <h2 class="bio-name">Santino Suntaxi</h2>
+                <p class="bio-role">Cloud & Automation Engineer · IA aplicada</p>
+                <div class="bio-certs" aria-label="Certificaciones en curso">
+                  <span class="bio-cert-label">En camino</span>
+                  <span class="bio-cert-item">Associate Cloud Engineer</span>
+                  <span class="bio-cert-item">Professional Cloud Architect</span>
+                </div>
+                <div class="bio-links">
+                  <a href="https://github.com/DakyLabs/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                    GitHub
+                  </a>
+                  <a href="https://www.linkedin.com/in/santinosuntaxi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+                    </svg>
+                    LinkedIn
+                  </a>
+                  <a href="https://youtube.com/@dakylabs" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    YouTube
+                  </a>
+                  <a href="https://discord.com/invite/RJtQCFCgy" target="_blank" rel="noopener noreferrer" aria-label="Discord" class="accent-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                    </svg>
+                    Discord
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="bio-body">
+              <p>
+                Soy Santino Suntaxi. Llevo más de 12 años de experiencia trabajando
+                en el sector privado y público, participando en proyectos que
+                aportan valor a través de la tecnología.
+              </p>
+
+              <p>
+                Me gradué en la ESPE (Escuela Politécnica del Ejército) en
+                Electrónica y Redes, pero mi camino realmente lo marcó mi interés
+                por la automatización y el scripting. Esa necesidad de optimizar
+                procesos me abrió las puertas del desarrollo de software y,
+                eventualmente, a la ciberseguridad.
+              </p>
+
+              <p>
+                Para consolidar esta visión de sistemas escalables, realicé un
+                Máster en DevOps, lo que me permitió evolucionar hacia lo que hago
+                hoy: diseñar infraestructura Cloud e IA, especialmente sobre <strong>Google Cloud</strong>,
+                aunque también he trabajado con otras nubes.
+              </p>
+
+              <p>
+                Mi filosofía es simple: no me ato a herramientas ni marcas. Primero
+                entiendo la necesidad y el objetivo, y a partir de eso elijo las
+                tecnologías más adecuadas para construir soluciones sólidas y
+                eficientes.
+              </p>
+
+              <p>
+                Mantengo <strong>DakyLabs</strong>, un espacio donde documento lo
+                que aprendo, lo que rompo y lo que vale la pena compartir con la
+                comunidad.
+              </p>
+
+              <p>
+                Me gusta compartir conocimiento en eventos, participar activamente
+                en comunidades y seguir aprendiendo junto a otros. Si quieres hablar
+                de algo relacionado a la tecnología, Discord es el lugar.
+              </p>
+
+              <blockquote class="bio-quote">
+                Si no es escalable y seguro, no es infraestructura.
+              </blockquote>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ══ LO QUE CONSTRUYO (resumen) ════════════════════════ -->
+        <section class="construyo-section" aria-labelledby="construyo-heading">
+          <div class="construyo-header">
+            <span class="section-label">Lo que construyo</span>
+            <h2 id="construyo-heading">Áreas de trabajo.</h2>
+            <p class="construyo-sub">
+              Open source, Google Workspace e infraestructura en GCP.
+            </p>
+          </div>
+
+          <div class="areas-grid">
+            {areas.map((area, i) => (
+              <article
+                class="area-card glass-card animate-fade-up"
+                id={`area-${area.id}`}
+                style={`animation-delay: ${i * 0.1}s`}
+              >
+                <div class="area-card-top">
+                  <div class="area-icon-wrap" aria-hidden="true">
+                    <div class="area-icon" set:html={area.icon} />
+                  </div>
+                  <span class="badge">{area.tag}</span>
+                </div>
+
+                <h3 class="area-title">{area.title}</h3>
+                <p class="area-desc">{area.description}</p>
+
+                <ul class="area-items" role="list">
+                  {area.items.map((item) => (
+                    <li>
+                      <span class="area-dot" aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                {area.link && (
+                  <a
+                    href={area.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="area-link"
+                    id={`link-bio-${area.id}`}
+                  >
+                    {area.linkLabel}
+                  </a>
+                )}
+              </article>
+            ))}
+          </div>
+
+        </section>
+
+        <FeaturedSidebar />
+      </div>
+
+      <aside class="site-col-right">
+        <AdsSidebar />
+      </aside>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ── Page hero ── */
+  .page-hero-inner {
+    padding-bottom: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-hero-inner h1 {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    margin-bottom: 0;
+    letter-spacing: -0.04em;
+  }
+
+  /* ══ BIO ══════════════════════════════════════════════════ */
+  .bio-section {
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 3rem;
+  }
+
+  .bio-container {
+    max-width: 720px;
+  }
+
+  .bio-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .bio-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 2px solid var(--border-subtle);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .bio-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
+  }
+
+  .bio-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-top: 0.25rem;
+  }
+
+  .bio-name {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .bio-role {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .bio-quote {
+    margin: 2rem 0 0 0;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--accent);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-style: normal;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    line-height: 1.5;
+    background: var(--accent-subtle);
+  }
+
+  .bio-certs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+
+  .bio-cert-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-right: 0.2rem;
+  }
+
+  .bio-cert-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px dashed var(--border-subtle);
+    border-radius: var(--radius-xs);
+  }
+
+  .bio-links {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .bio-links a {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .bio-links a:hover {
+    color: var(--text-primary);
+  }
+
+  .accent-link {
+    color: var(--accent) !important;
+  }
+
+  .bio-body p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--text-secondary);
+    margin-bottom: 1.15rem;
+    max-width: 66ch;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .bio-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .bio-body strong {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  /* ══ LO QUE CONSTRUYO ═══════════════════════════════════ */
+  .construyo-section {
+    padding-bottom: 4rem;
+  }
+
+  .construyo-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .construyo-header h2 {
+    font-size: clamp(1.6rem, 4vw, 2.25rem);
+    letter-spacing: -0.035em;
+    margin-bottom: 0.6rem;
+  }
+
+  .construyo-sub {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 55ch;
+    margin: 0;
+  }
+
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    .areas-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .areas-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .area-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .area-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .area-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    border: 1px solid var(--border-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  .area-icon :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .area-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .area-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+    flex: 1;
+  }
+
+  .area-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 0.85rem;
+  }
+
+  .area-items li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .area-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  .area-link {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-top: auto;
+  }
+
+  .area-link:hover {
+    opacity: 0.75;
+  }
+
+  /* ── Mobile bio header ── */
+  @media (max-width: 640px) {
+    .bio-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .bio-header-text {
+      align-items: center;
+    }
+
+    .bio-links {
+      justify-content: center;
+    }
+
+    .bio-body p {
+      text-align: left;
+    }
+  }
+</style>

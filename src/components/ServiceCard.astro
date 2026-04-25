@@ -1,0 +1,167 @@
+---
+// ServiceCard.astro
+interface Props {
+  title: string;
+  description: string;
+  features?: string[];
+  icon: string;
+  href?: string;
+}
+
+const { title, description, features = [], icon, href = '/servicios' } = Astro.props;
+---
+
+<article class="service-card glass-card" aria-label={title}>
+  <div class="card-icon-wrap" aria-hidden="true">
+    <div class="card-icon" set:html={icon}></div>
+  </div>
+
+  <div class="card-body">
+    <h3 class="card-title">{title}</h3>
+    <p class="card-description">{description}</p>
+
+    {features.length > 0 && (
+      <ul class="card-features" role="list">
+        {features.map(f => (
+          <li>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {f}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+  <a href={href} class="card-link" aria-label={`Ver detalles: ${title}`}>
+    <span>Ver detalles</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </a>
+
+  <!-- Glow accent line at bottom -->
+  <div class="card-accent-line" aria-hidden="true"></div>
+</article>
+
+<style>
+  .service-card {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  /* Icon */
+  .card-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--accent-subtle);
+    border: 1px solid var(--border-accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: var(--transition);
+  }
+
+  .service-card:hover .card-icon-wrap {
+    background: rgba(192,20,42,0.18);
+    box-shadow: 0 0 20px rgba(192,20,42,0.2);
+  }
+
+  .card-icon {
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-icon :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Body */
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Features list */
+  .card-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-top: 0.25rem;
+  }
+
+  .card-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.825rem;
+    color: var(--text-secondary);
+  }
+
+  .card-features svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Link */
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    letter-spacing: 0.01em;
+    margin-top: auto;
+  }
+
+  .card-link:hover {
+    gap: 0.65rem;
+    opacity: 0.85;
+  }
+
+  /* Accent glow line */
+  .card-accent-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .service-card:hover .card-accent-line {
+    opacity: 1;
+  }
+</style>
