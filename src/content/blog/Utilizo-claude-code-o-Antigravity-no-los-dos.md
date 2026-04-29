@@ -28,6 +28,10 @@ Después de empezar a usar Claude Code, Antigravity dejó de responder en su IDE
 
 Nada. Antigravity sigue muerto en mi setup y no logré que volviera a funcionar.
 
+## Lo que probé (y si funcionó)
+
+Al crear un nuevo proyecto en una nueva carpeta ya todo regresó a la normalidad , y cuando volvi nuevamente al proyecto no valió, entonces algo se daño en ese proyecto y murio la IA solo para ese proyecto.
+
 ## La hipótesis
 
 Mi sospecha es que hay un conflicto a nivel de sesión, tokens o procesos en background entre las dos herramientas. Algo que Claude Code "agarra" y Antigravity ya no logra recuperar o alguna sesión de Google que cambia y deja a Antigravity sin acceso a su backend.
