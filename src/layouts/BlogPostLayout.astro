@@ -36,7 +36,7 @@ const formattedDate = pubDate.toLocaleDateString('es-MX', {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<BaseLayout title={`${title} — DakyLabs Blog`} description={description}>
+<BaseLayout title={`${title} — DakyLabs Blog`} description={description} ogImage={image}>
   <Header />
 
   <main class="blog-post-page">
