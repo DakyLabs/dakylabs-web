@@ -8,6 +8,36 @@ import AdsSidebar from "../components/AdsSidebar.astro";
 
 const areas = [
   {
+    id: "chatbots",
+    tag: "Chatbots & IA",
+    title: "Chatbots e IA en producción",
+    description:
+      "Agentes conversacionales con Dialogflow CX, orquestación en Cloud Run y LLMs locales para casos que requieren datos privados. Cuando un chatbot tiene que resolver de verdad, no solo sonar inteligente.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="8.5" cy="10" r="1"/><circle cx="15.5" cy="10" r="1"/><path d="M12 13v.01"/>
+    </svg>`,
+    items: [
+      {
+        title: "Dialogflow CX",
+        desc: "Diseño de flujos conversacionales complejos con intents, pages y webhooks que escalan.",
+      },
+      {
+        title: "Integración con Cloud Run",
+        desc: "Backends que consumen APIs, bases de datos y modelos generativos según el contexto.",
+      },
+      {
+        title: "LLMs locales con RAG",
+        desc: "Modelos locales (LM Studio, Ollama) con retrieval para datos privados. Útil cuando el dato no puede salir del perímetro.",
+      },
+      {
+        title: "Integraciones multicanal",
+        desc: "Web, WhatsApp, Telegram y plataformas internas conectadas al mismo agente.",
+      },
+    ],
+    link: null,
+    linkLabel: null,
+  },
+  {
     id: "opensource",
     tag: "Open Source",
     title: "Proyectos y modelos abiertos",
@@ -97,42 +127,12 @@ const areas = [
     link: null,
     linkLabel: null,
   },
-  {
-    id: "chatbots",
-    tag: "Chatbots & IA",
-    title: "Chatbots e IA en producción",
-    description:
-      "Agentes conversacionales con Dialogflow CX, orquestación en Cloud Run y LLMs locales para casos que requieren datos privados. Cuando un chatbot tiene que resolver de verdad, no solo sonar inteligente.",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><circle cx="8.5" cy="10" r="1"/><circle cx="15.5" cy="10" r="1"/><path d="M12 13v.01"/>
-    </svg>`,
-    items: [
-      {
-        title: "Dialogflow CX",
-        desc: "Diseño de flujos conversacionales complejos con intents, pages y webhooks que escalan.",
-      },
-      {
-        title: "Integración con Cloud Run",
-        desc: "Backends que consumen APIs, bases de datos y modelos generativos según el contexto.",
-      },
-      {
-        title: "LLMs locales con RAG",
-        desc: "Modelos locales (LM Studio, Ollama) con retrieval para datos privados. Útil cuando el dato no puede salir del perímetro.",
-      },
-      {
-        title: "Integraciones multicanal",
-        desc: "Web, WhatsApp, Telegram y plataformas internas conectadas al mismo agente.",
-      },
-    ],
-    link: null,
-    linkLabel: null,
-  },
 ];
 ---
 
 <BaseLayout
   title="Lo que construyo — DakyLabs"
-  description="Proyectos open source, integraciones con Google Workspace y herramientas de infraestructura cloud."
+  description="Herramientas de Google, infraestructura, IA y tecnología."
 >
   <Header />
   <main id="proyectos-main">
@@ -142,9 +142,8 @@ const areas = [
           <span class="section-label">Proyectos</span>
           <h1 id="proyectos-title">Lo que construyo.</h1>
           <p class="page-hero-sub">
-            Open source, integraciones con el ecosistema de Google Workspace y
-            herramientas sobre GCP. Si lo construí y tiene utilidad general, está
-            en GitHub.
+            Uso e integraciones con herramientas de Google, infraestructura, IA y tecnología. Si lo construí
+            y tiene utilidad , está en GitHub.
           </p>
         </div>
 

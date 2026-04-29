@@ -23,7 +23,7 @@ const featuredPosts = [
   ...sortedPosts.filter((p) => !p.data.featured),
 ].slice(0, 3);
 
-const CATEGORIES = ["GCP", "Workspace", "IA", "Ciberseguridad"] as const;
+const CATEGORIES = ["GCP", "Workspace", "IA", "Ciberseguridad", "Open Source"] as const;
 const postsByCategory = CATEGORIES.map((name) => ({
   name,
   posts: sortedPosts.filter((p) => p.data.category === name).slice(0, 5),

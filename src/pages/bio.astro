@@ -8,6 +8,19 @@ import AdsSidebar from "../components/AdsSidebar.astro";
 
 const areas = [
   {
+    id: "ia",
+    tag: "IA",
+    title: "IA aplicada en producción",
+    description:
+      "LLMs, agentes y automatización con IA. La diferencia entre demo y producción.",
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>
+    </svg>`,
+    items: ["LLMs locales y APIs cloud", "Agentes con Claude / Gemini", "Dialogflow CX y bots conversacionales", "Automatización de procesos con IA"],
+    link: null,
+    linkLabel: null,
+  },
+  {
     id: "opensource",
     tag: "Open Source",
     title: "Proyectos y modelos abiertos",
@@ -51,7 +64,7 @@ const areas = [
 
 <BaseLayout
   title="Bio — DakyLabs"
-  description="Santino Suntaxi — Cloud & Automation Engineer con más de 12 años de experiencia en GCP, Workspace e IA. Founder de DakyLabs."
+  description="Santino Suntaxi — Cloud & Automation Engineer. IA aplicada, infraestructura cloud y herramientas de Google. Founder de DakyLabs."
 >
   <Header />
   <main id="bio-main">
@@ -170,7 +183,7 @@ const areas = [
             <span class="section-label">Lo que construyo</span>
             <h2 id="construyo-heading">Áreas de trabajo.</h2>
             <p class="construyo-sub">
-              Open source, Google Workspace e infraestructura en GCP.
+              Cloud, IA ,Tecnología, y open source.
             </p>
           </div>
 
