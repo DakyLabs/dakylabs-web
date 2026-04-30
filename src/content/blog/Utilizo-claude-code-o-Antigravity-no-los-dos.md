@@ -8,6 +8,8 @@ image: /images/posts/Utilizo-claude-code-o-Antigravity-no-los-dos.jpg
 draft: false
 ---
 
+Estaba probando Antigravity para construir algo rápido con agentes… hasta que dejó de funcionar sin razón aparente.
+
 La IA está de moda. Por eso me lancé a construir una aplicación con agentes desde Antigravity, "sin escribir nada" (eso decía la promesa). Hasta que se me acabaron los tokens.
 
 Como necesitaba seguir, abrí Claude Code desde la app de escritorio. Y ahí empezó el problema.
@@ -28,15 +30,15 @@ Después de empezar a usar Claude Code, Antigravity dejó de responder en su IDE
 
 Nada. Antigravity sigue muerto en mi setup y no logré que volviera a funcionar.
 
-## Lo que probé (y si funcionó)
+## Lo que probé (y sí funcionó)
 
-Al crear un nuevo proyecto en una nueva carpeta ya todo regresó a la normalidad , y cuando volvi nuevamente al proyecto no valió, entonces algo se daño en ese proyecto y murio la IA solo para ese proyecto.
+Al crear un nuevo proyecto en una nueva carpeta ya todo regresó a la normalidad , y cuando volví nuevamente al proyecto no valió, entonces algo se dañó en ese proyecto y murió la IA solo para ese proyecto.
 
 ## La hipótesis
 
 Mi sospecha es que hay un conflicto a nivel de sesión, tokens o procesos en background entre las dos herramientas. Algo que Claude Code "agarra" y Antigravity ya no logra recuperar o alguna sesión de Google que cambia y deja a Antigravity sin acceso a su backend.
 
-No tengo evidencia técnica para afirmarlo. Y honestamente no tengo el tiempo para analizar punto a punto más pistas, lo unico que se es que en ese proyecto ya no responde la Ia de antigravity.
+No tengo evidencia técnica para afirmarlo. Y honestamente no tengo el tiempo para analizar punto a punto más pistas, lo único que sé es que en ese proyecto ya no responde la IA de Antigravity.
 
 ## El punto de fondo
 
@@ -45,3 +47,7 @@ Este pequeño inconveniente dejó algo claro: a futuro las IA van a tener que ap
 Soy un soñador, lo sé. Pero es algo que las empresas que están construyendo estos productos deberían tomar en cuenta: el desarrollador real no usa una sola IA, usa la que mejor funcione para cada cosa.
 
 Mientras tanto: si vas a usar Claude Code y Antigravity en la misma máquina, elige uno por sesión y cierra todo lo demás. Y si encuentras la solución para que coexistan, escríbeme.
+
+Hoy el problema no es que la IA no funcione.
+El problema es que todavía no está diseñada para convivir con otras herramientas en el mismo entorno.
+Y eso, para los que usamos varias IAs al mismo tiempo, es una limitación real.

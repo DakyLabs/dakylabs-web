@@ -8,6 +8,8 @@ image: /images/posts/workspace-ferrarri-0-bicicleta.jpg
 draft: false
 ---
 
+La semana pasada revisé el entorno de una empresa que paga Google Workspace Business Plus… y lo usaban solo para correo y Drive.
+
 Voy a decirte algo que tal vez ya sabes: Google Workspace tiene herramientas empresariales de primer nivel (por algo pagas la licencia). El problema es que muchas organizaciones lo administran como si fuera un servicio de correo gratuito: lo usan para Gmail, Drive y poco más.
 
 Lo que sigue es lo que normalmente encuentro y lo que vale la pena activar.
@@ -75,3 +77,6 @@ Google tiene una herramienta integrada que audita esto: **Security Health Adviso
 Sí. Una semana. Después se olvidan, siguen trabajando, y ahora la organización tiene 40% menos superficie de ataque y procesos que antes tomaban horas corriendo solos.
 
 La alternativa es esperar al incidente.
+
+El problema no es la herramienta. Es no saber qué ya tienes disponible.
+Y en muchos casos, las empresas ya pagaron por soluciones que podrían ahorrarles horas de trabajo, pero nadie las está usando.

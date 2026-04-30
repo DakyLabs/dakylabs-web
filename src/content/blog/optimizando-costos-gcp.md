@@ -7,6 +7,8 @@ author: DakyLabs
 image: /images/posts/optimizando-costos-gcp.jpg
 ---
 
+He visto facturas de GCP crecer sin control no porque la arquitectura esté mal… sino porque nadie revisa lo que ya está corriendo.
+
 ## El problema real del costo en la nube
 
 Cuando una empresa, startup, institución o persona decide llevar su infraestructura a la nube (eso sería lo ideal para todos los proveedores de nube pública), lo primero que se debería realizar es : ingresar a la calculadora de GCP y estimar el costo de los servicios que necesita. Pero no deja de ser una estimación.
@@ -72,7 +74,7 @@ Una base de datos MySQL con 64GB de RAM para una app que usa 4GB en promedio.
 
 En la consola de GCP se puede ver en la sección de costos, recomendaciones de optimización, que muchas veces no tomamos en cuenta, pues hay que analizar esos datos.
 
-Google Cloud tmbien tiene una API nativa que identifica recursos subutilizados:
+Google Cloud también tiene una API nativa que identifica recursos subutilizados:
 
 ```bash
 gcloud recommender recommendations list \
@@ -86,5 +88,9 @@ Actívala. Es gratuita y puede encontrar ahorros que no verías manualmente.
 ## El resultado de aplicar esto
 
 Los ahorros se notan en la factura mensual. No porque se sacrifique rendimiento, sino porque gran parte del gasto viene de recursos que nadie está usando activamente.
+
+Optimizar costos en la nube no es un tema financiero.
+Es un tema de disciplina técnica.
+Y la mayoría del ahorro no viene de hacer algo complejo, sino, de dejar de pagar por lo que nadie usa.
 
 
