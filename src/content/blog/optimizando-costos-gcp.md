@@ -7,7 +7,7 @@ author: DakyLabs
 image: /images/posts/optimizando-costos-gcp.jpg
 ---
 
-He visto facturas de GCP crecer sin control no porque la arquitectura esté mal… sino porque nadie revisa lo que ya está corriendo.
+He visto facturas de GCP crecer sin control no porque la arquitectura esté mal, sino porque nadie revisa lo que ya está corriendo.
 
 ## El problema real del costo en la nube
 

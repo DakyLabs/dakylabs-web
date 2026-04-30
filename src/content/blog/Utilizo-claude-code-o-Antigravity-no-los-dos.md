@@ -8,7 +8,7 @@ image: /images/posts/Utilizo-claude-code-o-Antigravity-no-los-dos.jpg
 draft: false
 ---
 
-Estaba probando Antigravity para construir algo rápido con agentes… hasta que dejó de funcionar sin razón aparente.
+Estaba probando Antigravity para construir algo rápido con agentes, hasta que dejó de funcionar sin razón aparente.
 
 La IA está de moda. Por eso me lancé a construir una aplicación con agentes desde Antigravity, "sin escribir nada" (eso decía la promesa). Hasta que se me acabaron los tokens.
 

@@ -8,7 +8,7 @@ image: /images/posts/workspace-ferrarri-0-bicicleta.jpg
 draft: false
 ---
 
-La semana pasada revisé el entorno de una empresa que paga Google Workspace Business Plus… y lo usaban solo para correo y Drive.
+La semana pasada revisé el entorno de una empresa que paga Google Workspace Business Plus, y lo usaban solo para correo y Drive.
 
 Voy a decirte algo que tal vez ya sabes: Google Workspace tiene herramientas empresariales de primer nivel (por algo pagas la licencia). El problema es que muchas organizaciones lo administran como si fuera un servicio de correo gratuito: lo usan para Gmail, Drive y poco más.
 
