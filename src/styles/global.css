@@ -545,6 +545,7 @@ strong { color: var(--text-primary); font-weight: 600; }
   line-height: 1.85;
   overflow-wrap: break-word;
   word-break: break-word;
+  text-align: justify;
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4 {
