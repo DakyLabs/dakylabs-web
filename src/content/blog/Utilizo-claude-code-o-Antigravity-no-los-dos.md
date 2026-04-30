@@ -10,7 +10,7 @@ draft: false
 
 Estaba probando Antigravity para construir algo rápido con agentes, hasta que dejó de funcionar sin razón aparente.
 
-La IA está de moda. Por eso me lancé a construir una aplicación con agentes desde Antigravity, "sin escribir nada" (eso decía la promesa). Hasta que se me acabaron los tokens.
+La IA ya no es el futuro , es el presente. Por eso me lancé a construir una aplicación con agentes desde Antigravity, "sin escribir nada de código" (eso decía la promesa). Hasta que se me acabaron los tokens.
 
 Como necesitaba seguir, abrí Claude Code desde la app de escritorio. Y ahí empezó el problema.
 
@@ -36,7 +36,7 @@ Al crear un nuevo proyecto en una nueva carpeta ya todo regresó a la normalidad
 
 ## La hipótesis
 
-Mi sospecha es que hay un conflicto a nivel de sesión, tokens o procesos en background entre las dos herramientas. Algo que Claude Code "agarra" y Antigravity ya no logra recuperar o alguna sesión de Google que cambia y deja a Antigravity sin acceso a su backend.
+Mi sospecha es que hay un conflicto a nivel de sesión, tokens o procesos en background entre las dos herramientas. Algo que Claude Code agarra y Antigravity ya no logra recuperar o alguna sesión de Google que cambia y deja a Antigravity sin acceso a su backend.
 
 No tengo evidencia técnica para afirmarlo. Y honestamente no tengo el tiempo para analizar punto a punto más pistas, lo único que sé es que en ese proyecto ya no responde la IA de Antigravity.
 
