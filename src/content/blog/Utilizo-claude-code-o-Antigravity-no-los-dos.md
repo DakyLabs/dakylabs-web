@@ -1,7 +1,7 @@
 ---
 title: "Utilizo Claude Code o Antigravity, no los dos juntos"
 description: "Si utilizo Claude Code no puedo usar Antigravity, Gemini no contesta ni hace nada."
-pubDate: 2026-04-15
+pubDate: 2026-04-29
 category: IA
 author: DakyLabs
 image: /images/posts/Utilizo-claude-code-o-Antigravity-no-los-dos.jpg
