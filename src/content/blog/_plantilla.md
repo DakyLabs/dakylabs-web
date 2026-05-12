@@ -11,11 +11,16 @@ featured: false                              # true = aparece en sección destac
 
 <!-- Categorías válidas: GCP | Workspace | IA | Ciberseguridad | Open Source -->
 <!-- Cambiar draft: false para publicar -->
-<!-- image: ruta relativa a /public — omitir si no hay imagen de portada -->
+<!--
+  Convención de imágenes:
+  - Portada del post → /public/images/posts/<slug>.webp  (queda en la raíz de /posts)
+  - Figuras internas → /public/images/posts/<slug>/<nombre>.webp  (carpeta por post)
+  Si el post no tiene figuras internas, no se crea la subcarpeta.
+-->
 
 <!-- Ejemplo de figura numerada dentro del artículo:
 <figure class="blog-figure">
-  <img src="/images/posts/ejemplo.webp" alt="Descripción" loading="lazy" width="800" height="450">
+  <img src="/images/posts/nombre-del-post/ejemplo.webp" alt="Descripción" loading="lazy" width="800" height="450">
   <figcaption><strong>Figura 1:</strong> Descripción de lo que muestra la imagen.</figcaption>
 </figure>
 -->
