@@ -652,6 +652,53 @@ strong { color: var(--text-primary); font-weight: 600; }
   font-style: normal;
 }
 
+/* ─── Tablas en posts ────────────────────────────────────── */
+.prose .table-wrapper {
+  margin-block: 2rem;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.prose th,
+.prose td {
+  padding: 0.85rem 1.1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.prose thead th {
+  background: var(--accent-subtle);
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid var(--border-accent-soft);
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+.prose td:first-child {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
 /* ─── Selection ──────────────────────────────────────────── */
 ::selection {
   background: rgba(192, 20, 42, 0.3);
