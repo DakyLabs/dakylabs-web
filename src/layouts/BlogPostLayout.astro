@@ -568,26 +568,4 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }, 2000);
     });
   })();
-
-  // Solo en dispositivos táctiles (iPhone/Android) interceptamos los
-  // botones de X/LinkedIn para usar el sheet nativo del SO — ahí sí
-  // aparecen LinkedIn, X, WhatsApp, etc. instalados como app.
-  //
-  // En desktop (macOS/Windows/Linux) el share sheet del navegador solo
-  // muestra apps Apple/del sistema y no LinkedIn/X, así que dejamos el
-  // comportamiento original del <a href> → abre la versión web.
-  (function () {
-    if (!navigator.share) return;
-    if (!matchMedia('(pointer: coarse)').matches) return;
-    const links = document.querySelectorAll('.share-buttons a.share-btn');
-    if (!links.length) return;
-    const url = window.location.href;
-    const title = document.title;
-    links.forEach((a) => {
-      a.addEventListener('click', (e) => {
-        e.preventDefault();
-        navigator.share({ title, url, text: title }).catch(() => {});
-      });
-    });
-  })();
 </script>
