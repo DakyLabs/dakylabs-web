@@ -568,4 +568,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }, 2000);
     });
   })();
+
+  // En mobile (Web Share API), los botones de X/LinkedIn abren el sheet
+  // nativo del SO, que sí inicia la app instalada de LinkedIn/X/WhatsApp
+  // en lugar de la versión web. En desktop (sin navigator.share) caen al
+  // comportamiento por defecto del <a href>.
+  (function () {
+    if (!navigator.share) return;
+    const links = document.querySelectorAll('.share-buttons a.share-btn');
+    if (!links.length) return;
+    const url = window.location.href;
+    const title = document.title;
+    links.forEach((a) => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigator.share({ title, url, text: title }).catch(() => {});
+      });
+    });
+  })();
 </script>

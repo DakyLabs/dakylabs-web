@@ -5,11 +5,13 @@
 <canvas id="hero-space" aria-hidden="true"></canvas>
 
 <script is:inline type="module">
-  import * as THREE from '/vendor/three.module.js';
-
   const canvas = document.getElementById('hero-space');
-  if (canvas) {
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!canvas) { /* noop */ }
+  else if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Respeta la preferencia del usuario: no inicializa el motor 3D
+  } else {
+    const start = async () => {
+      const THREE = await import('/vendor/three.module.js');
     const isMobile = matchMedia('(max-width: 768px)').matches;
 
     const scene = new THREE.Scene();
@@ -322,18 +324,14 @@
       rafId = requestAnimationFrame(loop);
     };
 
-    if (reduced) {
-      renderer.render(scene, cam);
-    } else {
-      loop();
-    }
+    loop();
 
     // Pausa cuando la pestaña está oculta
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         paused = true;
         cancelAnimationFrame(rafId);
-      } else if (!reduced) {
+      } else {
         paused = false;
         loop();
       }
@@ -346,7 +344,7 @@
           if (!e.isIntersecting) {
             paused = true;
             cancelAnimationFrame(rafId);
-          } else if (!reduced && !document.hidden) {
+          } else if (!document.hidden) {
             paused = false;
             loop();
           }
@@ -355,6 +353,13 @@
       { threshold: 0.01 },
     );
     io.observe(canvas);
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(start, { timeout: 2000 });
+    } else {
+      setTimeout(start, 500);
+    }
   }
 </script>
 

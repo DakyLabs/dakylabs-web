@@ -9,15 +9,23 @@ import HeroSpace from './HeroSpace.astro';
     <!-- 3D Space Background (Three.js) — hermano del robot para que el
          blend-mode pueda verlo como backdrop -->
     <HeroSpace />
-    <img
-      src="/images/dakybot-hero.png"
-      alt=""
-      class="hero-bot"
-      width="750"
-      height="750"
-      loading="eager"
-      decoding="async"
-    />
+    <picture>
+      <source
+        type="image/webp"
+        srcset="/images/dakybot-hero-500.webp 500w, /images/dakybot-hero-800.webp 800w, /images/dakybot-hero.webp 1024w"
+        sizes="(max-width: 640px) 100vw, 520px"
+      />
+      <img
+        src="/images/dakybot-hero.png"
+        alt=""
+        class="hero-bot"
+        width="750"
+        height="750"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </picture>
     <div class="hero-bot-glow"></div>
   </div>
 
@@ -32,14 +40,18 @@ import HeroSpace from './HeroSpace.astro';
 
     <!-- Bio card -->
     <div class="hero-bio animate-fade-up delay-3">
-      <img
-        src="/images/santino-avatar.jpg"
-        alt="Santino Suntaxi"
-        class="hero-bio-avatar"
-        width="52"
-        height="52"
-        loading="eager"
-      />
+      <picture>
+        <source type="image/webp" srcset="/images/santino-avatar.webp" />
+        <img
+          src="/images/santino-avatar-104.jpg"
+          alt="Santino Suntaxi"
+          class="hero-bio-avatar"
+          width="52"
+          height="52"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
       <div class="hero-bio-body">
         <div class="hero-bio-header">
           <strong class="hero-bio-name">Santino Suntaxi</strong>
@@ -143,6 +155,14 @@ import HeroSpace from './HeroSpace.astro';
     /* Grupo de blend: el canvas (primer hijo) y el robot son hermanos
        acá, así que mix-blend-mode del robot ve al canvas como backdrop. */
     isolation: isolate;
+  }
+
+  /* El <picture> wrapper no debe interferir con el flex layout:
+     display:contents lo vuelve transparente al layout y los estilos
+     de .hero-bot siguen aplicando como si <img> fuera hijo directo. */
+  .hero-bot-wrapper picture,
+  .hero-bio picture {
+    display: contents;
   }
 
   .hero-bot {

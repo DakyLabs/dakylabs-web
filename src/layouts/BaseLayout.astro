@@ -23,7 +23,14 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preload" as="image" href="/images/dakybot-hero.png" />
+    <link
+      rel="preload"
+      as="image"
+      imagesrcset="/images/dakybot-hero-500.webp 500w, /images/dakybot-hero-800.webp 800w, /images/dakybot-hero.webp 1024w"
+      imagesizes="(max-width: 640px) 100vw, 520px"
+      type="image/webp"
+      fetchpriority="high"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- SEO Primary -->
