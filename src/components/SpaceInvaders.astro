@@ -831,6 +831,29 @@
       muteBtn.textContent = on ? '🔊' : '🔇';
       muteBtn.setAttribute('aria-label', on ? 'Silenciar' : 'Activar sonido');
     });
+
+    // Limpia el estado de teclas/botones cuando la ventana pierde foco —
+    // evita que el jugador siga "moviéndose" al volver de otra app/pestaña.
+    window.addEventListener('blur', () => {
+      state.keys = {};
+      state.btns = { left: false, right: false, fire: false };
+    });
+
+    // Pausa el bucle de renderizado y la música cuando la pestaña no es
+    // visible (ahorra batería en mobile). Al volver, retoma desde donde
+    // quedó si el modal sigue abierto.
+    document.addEventListener('visibilitychange', () => {
+      if (modal.hasAttribute('hidden')) return;
+      if (document.hidden) {
+        if (state.rafId) { cancelAnimationFrame(state.rafId); state.rafId = 0; }
+        if (sound.bg) sound.bg.pause();
+      } else if (!state.rafId) {
+        loop();
+        if (state.phase === 'playing' && sound.enabled && sound.bg) {
+          sound.bg.play().catch(() => {});
+        }
+      }
+    });
   })();
 </script>
 
@@ -875,6 +898,12 @@
     display: flex; flex-direction: column;
     align-items: center; gap: 0.6rem;
     padding: 1rem;
+    /* Respeta las safe areas del iPhone (notch + home indicator) sin
+       afectar dispositivos sin ellas (env(...) cae a 0 por defecto). */
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
     background: #0b0708;
     border: 1px solid rgba(192, 20, 42, 0.4);
     border-radius: 12px;
