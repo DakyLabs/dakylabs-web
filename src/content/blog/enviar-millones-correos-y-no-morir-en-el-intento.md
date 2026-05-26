@@ -115,7 +115,7 @@ Un solo registro, dos servicios incluidos. Nunca dos registros SPF separados en 
 
 ## El warmup de IPs: el paso que todos saltan y todos pagan caro
 
-Imagina que eres nuevo en un barrio y de un día para otro empiezas a repartir miles de volantes en cada veci. Los vecis van a pensar que eres ladrón o el cuentero de Muisne. Lo mismo pasa con el correo electrónico.
+Imagina que eres nuevo en el barrio y de un día para otro empiezas a repartir miles de volantes a cada vecino. Cada veci (expresión ecuatoriana) va a pensar que eres ladrón o el cuentero de Muisne. Lo mismo pasa con el correo electrónico.
 
 Cuando tienes una IP nueva o dedicada en SendGrid, los servidores de Gmail, Outlook y Yahoo no te conocen. Si el primer día mandas 500.000 correos, te bloquean sin pensarlo dos veces. A eso se le llama **warmup** o calentamiento de IPs, y es el proceso de ir aumentando el volumen gradualmente para que los proveedores aprendan que eres legítimo.
 
