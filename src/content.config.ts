@@ -8,7 +8,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    category: z.enum(['GCP', 'Workspace', 'IA', 'Ciberseguridad', 'Open Source']),
+    category: z.enum(['GCP', 'Workspace', 'IA', 'Ciberseguridad', 'Open Source', 'Herramientas']),
     author: z.string().default('DakyLabs'),
     draft: z.boolean().default(false),
     image: z.string().optional(),      // ruta a /public/images/posts/foto.jpg

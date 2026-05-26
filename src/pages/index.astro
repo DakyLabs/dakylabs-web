@@ -23,7 +23,7 @@ const featuredPosts = [
   ...sortedPosts.filter((p) => !p.data.featured),
 ].slice(0, 3);
 
-const CATEGORIES = ["GCP", "Workspace", "IA", "Ciberseguridad", "Open Source"] as const;
+const CATEGORIES = ["GCP", "Workspace", "IA", "Ciberseguridad", "Open Source", "Herramientas"] as const;
 const postsByCategory = CATEGORIES.map((name) => ({
   name,
   posts: sortedPosts.filter((p) => p.data.category === name).slice(0, 5),
@@ -800,6 +800,7 @@ const projects = [
   .cat-thumb-placeholder[data-cat="Workspace"]      { background: #FA7B17; }
   .cat-thumb-placeholder[data-cat="Ciberseguridad"] { background: #8B5CF6; }
   .cat-thumb-placeholder[data-cat="Open Source"]    { background: #555555; }
+  .cat-thumb-placeholder[data-cat="Herramientas"]   { background: #0891B2; }
 
   .cat-post-text {
     display: flex;

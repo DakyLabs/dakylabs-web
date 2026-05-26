@@ -281,6 +281,7 @@ body {
 .fs-thumb-placeholder[data-cat="Workspace"]      { background: #FA7B17; }
 .fs-thumb-placeholder[data-cat="Ciberseguridad"] { background: #8B5CF6; }
 .fs-thumb-placeholder[data-cat="Open Source"]    { background: #555555; }
+.fs-thumb-placeholder[data-cat="Herramientas"]   { background: #0891B2; }
 
 .fs-text {
   display: flex;
