@@ -1,7 +1,7 @@
 ---
 title: "El corazón de los chatbots: qué es realmente un Data Store en Google Cloud"
 description: "Cómo funcionan los Data Stores en Google Cloud para chatbots tipo RAG, por qué hay que crearlos primero por fuera y qué evitar en producción."
-pubDate: 2026-05-26
+pubDate: 2026-06-02
 category: GCP
 author: DakyLabs
 draft: false
