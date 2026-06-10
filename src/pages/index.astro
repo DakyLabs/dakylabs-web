@@ -76,7 +76,7 @@ const projects = [
                   <ul class="cat-posts" role="list">
                     {cat.posts.map((post) => (
                       <li class="cat-post-item">
-                        <a href={`/blog/${post.id}`} class="cat-post-link">
+                        <a href={`/blog/${post.id}/`} class="cat-post-link">
                           <div class="cat-thumb" aria-hidden="true">
                             {post.data.image ? (
                               <img src={post.data.image} alt="" loading="lazy" width="52" height="40" />

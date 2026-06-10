@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://dakylabs.com',
   output: 'static',
+  trailingSlash: 'always',
 
   markdown: {
     rehypePlugins: [
