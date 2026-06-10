@@ -34,9 +34,40 @@ const formattedDate = pubDate.toLocaleDateString('es-MX', {
 });
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageAbsolute = image ? new URL(image, Astro.site).toString() : undefined;
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "datePublished": pubDate.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": author,
+    "url": "https://dakylabs.com/bio"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "DakyLabs",
+    "url": "https://dakylabs.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dakylabs.com/favicon.svg"
+    }
+  },
+  "url": canonicalURL.toString(),
+  ...(imageAbsolute && {
+    "image": {
+      "@type": "ImageObject",
+      "url": imageAbsolute
+    }
+  })
+});
 ---
 
 <BaseLayout title={`${title} — DakyLabs Blog`} description={description} ogImage={image}>
+  <script is:inline slot="head" type="application/ld+json" set:html={jsonLd} />
   <Header />
 
   <main class="blog-post-page">
