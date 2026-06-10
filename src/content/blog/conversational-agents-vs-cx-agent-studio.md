@@ -1,13 +1,13 @@
 ---
 title: "Cazando moscas con una bazuca!"
-description: "Conversational Agents vs CX Agent Studio hacen casi lo mismo, el precio no es el mismo."
+description: "Conversational Agents vs CX Agent Studio hacen casi lo mismo, pero el precio no es el mismo."
 pubDate: 2026-06-09
 category: GCP
 author: DakyLabs
 draft: false
 image: /images/posts/conversational-agents-vs-cx-agent-studio.jpg
 ---
-La IA cada vez es más "inteligente" y lucha con nosotros para reemplazarnos, esto se lo toma muy a pecho Google y por esa razón sus agentes hacen tareas cada vez más complicadas, es así que no hace mucho tiempo el estándar era Dialogflow que actualmente se llama Conversational Agents, y básicamente era un chat conversacional pregunta respuesta y se puede generar un flujo de trabajo, pero recientemente existe CX Agent Studio que prácticamente nos permite realizar un chatbot con más características avanzadas como interactuar con voz, pero esto tiene un precio , que si no lo tomamos en cuenta infla nuestras facturas hasta las nubes,y esta vez cazaremos una mosca con una bazuca. En este artículo te ayudaré a elegir la herramienta correcta para el trabajo correcto.
+La IA cada vez es más "inteligente" y lucha con nosotros para reemplazarnos, esto se lo toma muy a pecho Google y por esa razón sus agentes hacen tareas cada vez más complicadas, es así que no hace mucho tiempo el estándar era Dialogflow que actualmente se llama Conversational Agents, y básicamente era un chat conversacional pregunta respuesta y se puede generar un flujo de trabajo, pero recientemente existe CX Agent Studio que prácticamente nos permite realizar un chatbot con más características avanzadas como interactuar con voz, pero esto tiene un precio , que si no lo tomamos en cuenta infla nuestras facturas hasta las nubes, y esta vez cazaremos una mosca con una bazuca. En este artículo te ayudaré a elegir la herramienta correcta para el trabajo correcto.
 
 Aunque a primera vista parezca que hacen "casi lo mismo", la diferencia en arquitectura, autonomía y, sobre todo, en la factura al final del mes, es por decir un poquito alta.
 
@@ -85,7 +85,7 @@ Ambas herramientas son potentes y tienen su lugar. El error está en elegir CX A
 
 Bueno al final después de hacer ese análisis pues escogimos la mejor opción que en este caso era Conversational Agents
 
-Un día más de aprendizaje, y recuerda hay que analizar bien los requerimientos del cliente en conjunto con su presupuesto, esa es nuestra misión para que cualquier proyecto tenga éxito, y más que nada agreguemos valor a nuestras soluciones. Nos vemos la próxima semana y ya veremos que cosas nuevas pasan.
+Un día más de aprendizaje, y recuerda hay que analizar bien los requerimientos del cliente en conjunto con su presupuesto, esa es nuestra misión para que cualquier proyecto tenga éxito, y más que nada agreguemos valor a nuestras soluciones. Nos vemos la próxima semana y ya veremos qué cosas nuevas pasan.
 
 <div class="video-embed">
   <iframe src="https://www.youtube-nocookie.com/embed/7qh2i3oXO0s" title="Resumen en video — Conversational Agents vs CX Agent Studio" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
