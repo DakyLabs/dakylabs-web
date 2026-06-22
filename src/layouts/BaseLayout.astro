@@ -187,7 +187,7 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
           <div class="avatar">🤖</div>
           <div>
             <div class="ttl">DakyBot</div>
-            <div class="sub">En línea · sarcasmo incluido</div>
+            <div class="sub">En línea · responde al instante</div>
           </div>
           <button class="close" id="close" aria-label="Cerrar">✕</button>
         </div>
@@ -217,7 +217,7 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
       panel.classList.add("open");
       launcher.classList.add("hidden");
       if (!greeted) {
-        addMsg("bot", "Ah, un humano. 🤖 Soy DakyBot. Prefiero la compañía de los animales, la verdad… pero mi misión es cuidarlos a ustedes igual. Dime, ¿en qué te salvo hoy?");
+        addMsg("bot", "¡Hola! 🤖 Soy DakyBot. Mi misión es ayudarte — pregúntame sobre la información de esta página y sus artículos.");
         greeted = true;
       }
       q.focus();
