@@ -132,12 +132,12 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
         * { box-sizing: border-box; }
         .launcher {
           position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px;
-          border-radius: 50%; background: #0ea5e9; color: #fff; border: none; cursor: pointer;
-          box-shadow: 0 6px 20px rgba(14,165,233,.45); font-size: 26px; z-index: 2147483646;
+          border-radius: 50%; background: #C0142A; color: #fff; border: none; cursor: pointer;
+          box-shadow: 0 6px 20px rgba(192,20,42,.45); font-size: 26px; z-index: 2147483646;
           display: flex; align-items: center; justify-content: center; transition: transform .15s, box-shadow .15s;
           font-family: system-ui, sans-serif;
         }
-        .launcher:hover { transform: scale(1.06); box-shadow: 0 8px 26px rgba(14,165,233,.55); }
+        .launcher:hover { transform: scale(1.06); box-shadow: 0 8px 26px rgba(192,20,42,.55); }
         .launcher.hidden { display: none; }
 
         .panel {
@@ -151,7 +151,7 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
         @keyframes pop { from { transform: translateY(12px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
 
         .header {
-          background: linear-gradient(135deg, #0ea5e9, #0369a1); color: #fff;
+          background: linear-gradient(135deg, #C0142A, #8a0e1e); color: #fff;
           padding: 14px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
         }
         .header .avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.2);
@@ -164,17 +164,17 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
 
         .log { flex: 1; overflow-y: auto; padding: 16px; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
         .msg { max-width: 80%; padding: 9px 13px; border-radius: 14px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
-        .msg.user { align-self: flex-end; background: #0ea5e9; color: #fff; border-bottom-right-radius: 4px; }
+        .msg.user { align-self: flex-end; background: #C0142A; color: #fff; border-bottom-right-radius: 4px; }
         .msg.bot  { align-self: flex-start; background: #fff; color: #1e293b; border: 1px solid #e2e8f0; border-bottom-left-radius: 4px; }
         .msg.bot.typing { color: #94a3b8; font-style: italic; }
 
         .row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e2e8f0; background: #fff; flex-shrink: 0; }
         input { flex: 1; border: 1px solid #cbd5e1; border-radius: 22px; padding: 10px 16px; font-size: 14px; outline: none;
           font-family: inherit; color: #1e293b; }
-        input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14,165,233,.15); }
-        .send { border: none; background: #0ea5e9; color: #fff; width: 42px; height: 42px; border-radius: 50%;
+        input:focus { border-color: #C0142A; box-shadow: 0 0 0 3px rgba(192,20,42,.15); }
+        .send { border: none; background: #C0142A; color: #fff; width: 42px; height: 42px; border-radius: 50%;
           cursor: pointer; font-size: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        .send:hover { background: #0284c7; }
+        .send:hover { background: #9e1022; }
 
         .log::-webkit-scrollbar { width: 6px; }
         .log::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
@@ -187,7 +187,7 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
           <div class="avatar">🤖</div>
           <div>
             <div class="ttl">DakyBot</div>
-            <div class="sub">En línea · responde al instante</div>
+            <div class="sub">En línea · sarcasmo incluido</div>
           </div>
           <button class="close" id="close" aria-label="Cerrar">✕</button>
         </div>
@@ -217,7 +217,7 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
       panel.classList.add("open");
       launcher.classList.add("hidden");
       if (!greeted) {
-        addMsg("bot", "¡Hola! 👋 Soy DakyBot, mucho gusto. Estoy aquí para echarte una mano — cuéntame, ¿en qué te puedo ayudar hoy?");
+        addMsg("bot", "Ah, un humano. 🤖 Soy DakyBot. Prefiero la compañía de los animales, la verdad… pero mi misión es cuidarlos a ustedes igual. Dime, ¿en qué te salvo hoy?");
         greeted = true;
       }
       q.focus();
