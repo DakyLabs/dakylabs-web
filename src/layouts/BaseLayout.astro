@@ -73,5 +73,190 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
   </head>
   <body>
     <slot />
+
+    <!-- DakyBot — chatbot widget (BFF en Cloud Run) -->
+    <script is:inline data-bff="https://chat-bff-hitox6ucqa-ue.a.run.app">
+(function () {
+  "use strict";
+
+  const script = document.currentScript;
+  const BFF = (script && script.getAttribute("data-bff")) || "";
+  if (!BFF) return console.error("[widget] falta data-bff");
+
+  let token = null;
+
+  async function getSession() {
+    const res = await fetch(`${BFF}/session`, { method: "POST" });
+    if (!res.ok) throw new Error("session_failed");
+    token = (await res.json()).token;
+  }
+
+  async function send(message, onChunk, onDone) {
+    if (!token) await getSession();
+    const res = await fetch(`${BFF}/chat`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message, token }),
+    });
+    if (res.status === 401) {
+      token = null;
+      return send(message, onChunk, onDone);
+    }
+    if (!res.ok) {
+      onChunk("Lo siento, el asistente no está disponible ahora mismo.");
+      return onDone();
+    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      decoder
+        .decode(value)
+        .split("\n")
+        .filter((l) => l.startsWith("data:"))
+        .forEach((l) => onChunk(l.replace(/^data:\s?/, "")));
+    }
+    onDone();
+  }
+
+  function mount() {
+    const host = document.createElement("div");
+    host.id = "dakybot-widget";
+    document.body.appendChild(host);
+    const root = host.attachShadow({ mode: "closed" });
+
+    root.innerHTML = `
+      <style>
+        :host { all: initial; }
+        * { box-sizing: border-box; }
+        .launcher {
+          position: fixed; bottom: 24px; right: 24px; width: 60px; height: 60px;
+          border-radius: 50%; background: #0ea5e9; color: #fff; border: none; cursor: pointer;
+          box-shadow: 0 6px 20px rgba(14,165,233,.45); font-size: 26px; z-index: 2147483646;
+          display: flex; align-items: center; justify-content: center; transition: transform .15s, box-shadow .15s;
+          font-family: system-ui, sans-serif;
+        }
+        .launcher:hover { transform: scale(1.06); box-shadow: 0 8px 26px rgba(14,165,233,.55); }
+        .launcher.hidden { display: none; }
+
+        .panel {
+          position: fixed; bottom: 24px; right: 24px; width: 370px; max-width: calc(100vw - 32px);
+          height: 540px; max-height: calc(100vh - 48px);
+          display: none; flex-direction: column; z-index: 2147483647;
+          background: #fff; border-radius: 16px; overflow: hidden;
+          box-shadow: 0 12px 40px rgba(0,0,0,.18); font-family: system-ui, sans-serif;
+        }
+        .panel.open { display: flex; animation: pop .18s ease; }
+        @keyframes pop { from { transform: translateY(12px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
+
+        .header {
+          background: linear-gradient(135deg, #0ea5e9, #0369a1); color: #fff;
+          padding: 14px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+        }
+        .header .avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.2);
+          display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .header .ttl { font-size: 15px; font-weight: 600; line-height: 1.2; }
+        .header .sub { font-size: 12px; opacity: .85; }
+        .header .close { margin-left: auto; background: transparent; border: none; color: #fff; font-size: 20px;
+          cursor: pointer; opacity: .85; width: 30px; height: 30px; border-radius: 50%; }
+        .header .close:hover { background: rgba(255,255,255,.18); opacity: 1; }
+
+        .log { flex: 1; overflow-y: auto; padding: 16px; background: #f8fafc; display: flex; flex-direction: column; gap: 10px; }
+        .msg { max-width: 80%; padding: 9px 13px; border-radius: 14px; font-size: 14px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
+        .msg.user { align-self: flex-end; background: #0ea5e9; color: #fff; border-bottom-right-radius: 4px; }
+        .msg.bot  { align-self: flex-start; background: #fff; color: #1e293b; border: 1px solid #e2e8f0; border-bottom-left-radius: 4px; }
+        .msg.bot.typing { color: #94a3b8; font-style: italic; }
+
+        .row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #e2e8f0; background: #fff; flex-shrink: 0; }
+        input { flex: 1; border: 1px solid #cbd5e1; border-radius: 22px; padding: 10px 16px; font-size: 14px; outline: none;
+          font-family: inherit; color: #1e293b; }
+        input:focus { border-color: #0ea5e9; box-shadow: 0 0 0 3px rgba(14,165,233,.15); }
+        .send { border: none; background: #0ea5e9; color: #fff; width: 42px; height: 42px; border-radius: 50%;
+          cursor: pointer; font-size: 18px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .send:hover { background: #0284c7; }
+
+        .log::-webkit-scrollbar { width: 6px; }
+        .log::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+      </style>
+
+      <button class="launcher" id="launcher" aria-label="Abrir chat">💬</button>
+
+      <div class="panel" id="panel">
+        <div class="header">
+          <div class="avatar">🤖</div>
+          <div>
+            <div class="ttl">DakyBot</div>
+            <div class="sub">En línea · responde al instante</div>
+          </div>
+          <button class="close" id="close" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="log" id="log"></div>
+        <div class="row">
+          <input id="q" placeholder="Escribe tu pregunta…" autocomplete="off" />
+          <button class="send" id="s" aria-label="Enviar">➤</button>
+        </div>
+      </div>`;
+
+    const launcher = root.getElementById("launcher");
+    const panel = root.getElementById("panel");
+    const log = root.getElementById("log");
+    const q = root.getElementById("q");
+    let greeted = false;
+
+    function addMsg(who, text, opts) {
+      const div = document.createElement("div");
+      div.className = `msg ${who}` + (opts && opts.typing ? " typing" : "");
+      div.textContent = text;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+      return div;
+    }
+
+    function open() {
+      panel.classList.add("open");
+      launcher.classList.add("hidden");
+      if (!greeted) {
+        addMsg("bot", "¡Hola! 👋 Soy DakyBot, el asistente de DakyLabs. ¿En qué te puedo ayudar?");
+        greeted = true;
+      }
+      q.focus();
+    }
+    function close() {
+      panel.classList.remove("open");
+      launcher.classList.remove("hidden");
+    }
+
+    launcher.addEventListener("click", open);
+    root.getElementById("close").addEventListener("click", close);
+
+    function ask() {
+      const text = q.value.trim();
+      if (!text) return;
+      addMsg("user", text);
+      q.value = "";
+      const bot = addMsg("bot", "escribiendo…", { typing: true });
+      let first = true;
+      send(
+        text,
+        (chunk) => {
+          if (first) { bot.textContent = ""; bot.classList.remove("typing"); first = false; }
+          bot.textContent += chunk;
+          log.scrollTop = log.scrollHeight;
+        },
+        () => {},
+      ).catch(() => { bot.classList.remove("typing"); bot.textContent = "Error de conexión. Intenta de nuevo."; });
+    }
+    root.getElementById("s").addEventListener("click", ask);
+    q.addEventListener("keydown", (e) => e.key === "Enter" && ask());
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", mount);
+  } else {
+    mount();
+  }
+})();
+    </script>
   </body>
 </html>
