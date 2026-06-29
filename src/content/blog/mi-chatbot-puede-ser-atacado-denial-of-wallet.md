@@ -62,7 +62,7 @@ Imaginémonos lo siguiente, tenemos un puesto de jugos y ponemos un cartel que d
 
 Excelente pregunta me hice jaja, y la respuesta honesta es, ayudan muchísimo y sí deberíamos usarlos.
 
-Cloud Armor es el guardia de seguridad que Google Cloud pone en la puerta de nuestra app (técnicamente un WAF, un firewall para aplicaciones web): revisa todo el tráfico que llega y bloquea lo sospechoso antes de que entre. Por ejemplo, frena a la IP que nos dispara cientos de peticiones por minuto (eso es el rate-based ban), puede bloquear países enteros que no nos interesan (geo-bloqueo) y filtra bots conocidos. Es nuestro perímetro: se lleva el grueso del abuso barato antes de que toque la app.
+Cloud Armor es el guardia de seguridad que Google Cloud pone en la puerta de nuestra app (técnicamente un WAF, un firewall para aplicaciones web), revisa todo el tráfico que llega y bloquea lo sospechoso antes de que entre. Por ejemplo, frena a la IP que nos dispara cientos de peticiones por minuto (eso es el rate-based ban), puede bloquear países enteros que no nos interesan (geo-bloqueo) y filtra bots conocidos. Es nuestro perímetro y se lleva el grueso del abuso barato antes de que toque la app.
 
 reCAPTCHA, por su lado, filtra robots en la puerta, es esa prueba de Google del "no soy un robot" (el checkbox o elegir las fotos con semáforos; en las versiones nuevas muchas veces ni aparece, valida sola en segundo plano).
 
@@ -70,11 +70,11 @@ O sea, los dos mitigan una buena parte del DoW.
 
 El problema es que son controles de perímetro y por fuente, y el DoW es un problema que va más allá, y ahí está el problema. Lo pongo con tres casos donde Armor + reCAPTCHA pasan la prueba y aun así nos puede perjudicar en el consumo indiscriminado.
 
-- **Ataque repartido (botnet):** 10.000 IPs, cada una haciendo 5 preguntas por minuto, cada IP va por debajo del límite de Armor (parecen usuarios normales), pero sumadas son 50.000 preguntas por minuto, Armor cuida cada puerta por separado, nadie está contando el total.
-- **Tráfico real viral:** comparten nuestro bot en redes y entran 100.000 personas reales, reCAPTCHA las deja pasar a todas (¡son humanas!) y cada pregunta cuesta, reCAPTCHA sabe decir "esto es humano", no sabe decir "ya gastamos suficiente hoy, esto se va a descontrolar".
-- **Un bug en nuestra propia web:** un reintento en bucle del widget desde los navegadores de nuestros clientes legítimos, IPs normales, humanos, reCAPTCHA OK… y se produce un consumo de igual manera.
+- **Ataque repartido (botnet).** 10.000 IPs, cada una haciendo 5 preguntas por minuto, cada IP va por debajo del límite de Armor (parecen usuarios normales), pero sumadas son 50.000 preguntas por minuto, Armor cuida cada puerta por separado, nadie está contando el total.
+- **Tráfico real viral.** Comparten nuestro bot en redes y entran 100.000 personas reales, reCAPTCHA las deja pasar a todas (¡son humanas!) y cada pregunta cuesta, reCAPTCHA sabe decir "esto es humano", no sabe decir "ya gastamos suficiente hoy, esto se va a descontrolar".
+- **Un bug en nuestra propia web.** Un reintento en bucle del widget desde los navegadores de nuestros clientes legítimos, IPs normales, humanos, reCAPTCHA OK… y se produce un consumo de igual manera.
 
-Así que no es "Armor/reCAPTCHA o un límite de gasto", son los tres juntos, en capas: Armor (perímetro) → reCAPTCHA (puerta) → tope de gasto (techo que nunca se pasa), cada capa asume que la anterior puede fallar, y el tope de gasto es el último que queda en pie aunque todo lo demás lo evadan.
+Así que no es "Armor/reCAPTCHA o un límite de gasto", son los tres juntos, en capas, Armor (perímetro) → reCAPTCHA (puerta) → tope de gasto (techo que nunca se pasa), cada capa asume que la anterior puede fallar, y el tope de gasto es el último que queda en pie aunque todo lo demás lo evadan.
 
 De paso, evaluamos usar las cuotas nativas de Google Cloud, pero esas controlan otra cosa, la velocidad por minuto (cuántas peticiones o tokens por minuto), no el total por día ni por usuario, así que sirven de freno general, no del candado que buscábamos.
 
@@ -101,7 +101,7 @@ Si nos toca llevar un chatbot de la demo al cliente real, podemos tomar en cuent
 - **No dejamos el widget solo.** Metemos un backend nuestro entre la web y el modelo, ahí es donde podemos contar peticiones, validar sesiones y cortar, el widget nativo no nos da eso.
 - **El tope de gasto va primero.** Es nuestro límite de tarjeta, pase lo que pase no se cobra más, es el único control que nos da cierta garantía.
 - **Pensamos en capas, no en una bala de plata.** Cloud Armor (perímetro) + reCAPTCHA (puerta) + rate limiting (ritmo) + tope de gasto (techo), cada capa cubre lo que la anterior deja pasar.
-- **Que el sistema nos avise.** Activamos presupuestos y alertas de facturación en Google Cloud. Eso sí, ojo: los presupuestos de Google Cloud solo avisan, no cortan el gasto; el freno duro lo pone nuestro backend.
+- **Que el sistema nos avise.** Activamos presupuestos y alertas de facturación en Google Cloud. Eso sí, ojo, los presupuestos de Google Cloud solo avisan, no cortan el gasto; el freno duro lo pone nuestro backend.
 
 ---
 
