@@ -74,8 +74,20 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
   <body>
     <slot />
 
-    <!-- DakyBot — chatbot widget (BFF en Cloud Run) -->
+    <!-- DakyBot — pega TODO este bloque antes de </body> en dakylabs.com (página Astro) -->
     <script is:inline data-bff="https://chat-bff-hitox6ucqa-ue.a.run.app">
+/**
+ * DakyBot — widget de chat embebible. JS vanilla + Shadow DOM (sin frameworks, ADR-0006).
+ *
+ * Garantías de seguridad (ver ADR-0004 / SECURITY.md):
+ *  - Aislado en Shadow DOM: no toca ni es tocado por el DOM/CSS de la página anfitriona.
+ *  - Cero secretos: solo obtiene un token de sesión de corta vida del BFF.
+ *  - Nunca habla con GCP directamente; todo pasa por el BFF.
+ *  - El markdown del bot se renderiza con escapeHtml PRIMERO (sin XSS).
+ *
+ * Uso (1 línea en la web del cliente):
+ *   <script src="https://.../widget.js" data-bff="https://chat-bff-....run.app" defer><\/script>
+ */
 (function () {
   "use strict";
 
@@ -135,14 +147,13 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
+  // Markdown mínimo y SEGURO (escapa el HTML antes de aplicar formato).
   function mdToHtml(src) {
     const code = [];
     src = src.replace(/```[^\n]*\n?([\s\S]*?)```/g, (_, c) => {
       code.push(c.replace(/\n+$/, ""));
       return `@@C${code.length - 1}@@`;
     });
-
-    src = src.replace(/([^\n*])\*[ \t]{2,}(?=\S)/g, "$1\n* ");
 
     const inline = (s) => escapeHtml(s)
       .replace(/`([^`]+)`/g, "<code>$1</code>")
@@ -197,6 +208,8 @@ const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
           --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
         }
         * { box-sizing: border-box; }
+        /* Resaltado de selección visible sobre CUALQUIER color de burbuja (al copiar texto). */
+        ::selection { background: #fde047; color: #0f172a; }
 
         .launcher {
           position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
