@@ -46,14 +46,44 @@ const mapsSrc = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&
       const statusEl = document.getElementById("status");
       const origin = location.origin;
 
-      // Google llama a esta función global si la key es rechazada
-      // (key inválida, referrer no autorizado, API no habilitada, facturación off).
-      window.gm_authFailure = function () {
+      // Diagnóstico: Google imprime el código exacto del error en console.error.
+      // Lo interceptamos para mostrarlo en pantalla junto con la URL a autorizar.
+      const CAUSAS = {
+        RefererNotAllowedMapError: "El origen/URL de esta página NO está en la lista de referrers permitidos de la key.",
+        ApiNotActivatedMapError: "La API 'Maps JavaScript API' no está HABILITADA en el proyecto de GCP.",
+        BillingNotEnabledMapError: "El proyecto NO tiene facturación activa (Maps exige billing habilitado).",
+        ApiTargetBlockedMapError: "Las restricciones de API de la key BLOQUEAN Maps JavaScript API.",
+        InvalidKeyMapError: "La key es inválida.",
+        ExpiredKeyMapError: "La key expiró.",
+        MissingKeyMapError: "Falta la key en la petición.",
+      };
+
+      function mostrarError(code, msg) {
+        const authUrl = (msg.match(/authorized:\s*(\S+)/i) || [])[1];
         statusEl.className = "status err";
         statusEl.innerHTML =
-          "❌ <strong>La key fue RECHAZADA</strong> en este origen (<code>" + origin + "</code>).<br>" +
-          "Causas típicas: referrer no autorizado, key inválida, API no habilitada o facturación desactivada.<br>" +
-          "Si esto pasa en otro dominio pero funciona en dakylabs.com → tu restricción por referrer está protegiéndote. ✅";
+          "❌ <strong>" + code + "</strong> — origen <code>" + origin + "</code><br>" +
+          (CAUSAS[code] || "La key fue rechazada.") +
+          (authUrl ? "<br>➡️ URL a autorizar en la restricción de la key: <code>" + authUrl + "</code>" : "");
+      }
+
+      const _err = console.error.bind(console);
+      console.error = function () {
+        const msg = Array.prototype.join.call(arguments, " ");
+        for (const code in CAUSAS) {
+          if (msg.indexOf(code) !== -1) { mostrarError(code, msg); break; }
+        }
+        _err.apply(console, arguments);
+      };
+
+      // Fallback si Google no logueó un código reconocible.
+      window.gm_authFailure = function () {
+        if (statusEl.className.indexOf("err") === -1) {
+          statusEl.className = "status err";
+          statusEl.innerHTML =
+            "❌ <strong>La key fue RECHAZADA</strong> en este origen (<code>" + origin + "</code>).<br>" +
+            "Revisa la consola del navegador para el código exacto (referrer, API, facturación o key inválida).";
+        }
       };
 
       // Callback de éxito de la carga del script de Maps.
