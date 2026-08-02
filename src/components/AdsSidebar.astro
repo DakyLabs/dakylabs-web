@@ -1,4 +1,5 @@
 ---
+import Pic from "./Pic.astro";
 // AdsSidebar.astro — columna de anuncios (foto grande + título)
 import { ads } from '../data/ads';
 ---
@@ -9,7 +10,7 @@ import { ads } from '../data/ads';
       <a href={ad.url} target="_blank" rel="noopener noreferrer" class="as-card">
         <p class="as-title">{ad.title}</p>
         <div class="as-img-wrap">
-          <img src={ad.image} alt={ad.title} loading="lazy" width="200" height="260" />
+          <Pic src={ad.image} alt={ad.title} loading="lazy" width="200" height="260" />
         </div>
       </a>
     ))}

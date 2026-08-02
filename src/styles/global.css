@@ -821,3 +821,6 @@ strong { color: var(--text-primary); font-weight: 600; }
     font-size: 1.1rem;
   }
 }
+
+/* <picture> transparente al layout (Pic.astro sirve AVIF/WebP) */
+picture { display: contents; }

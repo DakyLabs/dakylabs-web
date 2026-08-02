@@ -1,4 +1,5 @@
 ---
+import Pic from "../components/Pic.astro";
 // BlogPostLayout.astro
 import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
@@ -108,7 +109,7 @@ const jsonLd = JSON.stringify({
 
           {image && (
             <div class="article-cover">
-              <img src={image} alt={title} loading="eager" width="720" height="405" />
+              <Pic src={image} alt={title} loading="eager" width="720" height="405" />
             </div>
           )}
 
@@ -184,7 +185,7 @@ const jsonLd = JSON.stringify({
 
           <!-- Author bio -->
           <div class="author-bio">
-            <img
+            <Pic
               src="/images/santino-avatar.jpg"
               alt="Santino Suntaxi"
               width="56"

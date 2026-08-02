@@ -1,0 +1,16 @@
+---
+// Pic.astro — sirve AVIF/WebP con fallback JPG. Cero cambio visual (picture{display:contents} en global.css).
+const { src, ...rest } = Astro.props;
+const isJpg = typeof src === "string" && /\.jpe?g$/i.test(src);
+const avif = isJpg ? src.replace(/\.jpe?g$/i, ".avif") : src;
+const webp = isJpg ? src.replace(/\.jpe?g$/i, ".webp") : src;
+---
+{isJpg ? (
+  <picture>
+    <source type="image/avif" srcset={avif} />
+    <source type="image/webp" srcset={webp} />
+    <img src={src} {...rest} />
+  </picture>
+) : (
+  <img src={src} {...rest} />
+)}

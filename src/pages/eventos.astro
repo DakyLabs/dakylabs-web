@@ -1,4 +1,5 @@
 ---
+import Pic from "../components/Pic.astro";
 // src/pages/eventos.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
@@ -94,21 +95,21 @@ import AdsSidebar from "../components/AdsSidebar.astro";
         </div>
         <div class="photos-grid">
           <div class="photo-item">
-            <img
+            <Pic
               src="/images/eventos/evento-01.jpg"
               alt="Santino Suntaxi en evento técnico"
               loading="lazy"
             />
           </div>
           <div class="photo-item">
-            <img
+            <Pic
               src="/images/eventos/evento-02.jpg"
               alt="Santino Suntaxi hablando en conferencia"
               loading="lazy"
             />
           </div>
           <div class="photo-item">
-            <img
+            <Pic
               src="/images/eventos/evento-03.jpg"
               alt="Santino Suntaxi en meetup de Cloud"
               loading="lazy"
