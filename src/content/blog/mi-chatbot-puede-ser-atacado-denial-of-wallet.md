@@ -5,7 +5,7 @@ pubDate: 2026-06-29
 category: Ciberseguridad
 author: DakyLabs
 draft: false
-image: /images/posts/mi-chatbot-puede-ser-atacado-denial-of-wallet.png
+image: /images/posts/mi-chatbot-puede-ser-atacado-denial-of-wallet.jpg
 ---
 
 Hoy en día montar un chatbot con IA es "fácil", y en parte es culpa de los tutoriales con títulos tipo "despliega tu solución en 10 minutos" (yo doy charlas con ese título jaja..). Para aprender conceptos es un buen recurso. El problema es otro, entre "funciona en mi demo" y "funciona con clientes reales" hay una pequeña gran diferencia, que nos puede llegar en forma de factura, y de eso vamos a hablar hoy.
@@ -32,7 +32,7 @@ Volviendo al tema, Conversational Agents tiene soluciones de chatbot para muchos
 Esto se conoce como **Denial of Wallet (DoW)**. No buscan dejar fuera un servicio (eso es el DoS clásico). Buscan dejarlo corriendo y que llegue una factura que nos haga arrepentir de utilizar las nuevas herramientas con IA. En sí el daño es el costo. Y vamos a hablar de dónde sale este concepto.
 
 <figure class="blog-figure">
-  <img src="/images/posts/mi-chatbot-puede-ser-atacado-denial-of-wallet/panorama-dow.png" alt="Panorama del ataque Denial of Wallet a un chatbot: preguntas sin parar, el puesto de jugos y el dinero drenándose hacia el tope de gasto" loading="lazy" width="800" height="450">
+  <img src="/images/posts/mi-chatbot-puede-ser-atacado-denial-of-wallet/panorama-dow.jpg" alt="Panorama del ataque Denial of Wallet a un chatbot: preguntas sin parar, el puesto de jugos y el dinero drenándose hacia el tope de gasto" loading="lazy" width="800" height="450">
   <figcaption><strong>Figura 1:</strong> El panorama del Denial of Wallet, el chatbot recibe preguntas sin parar (humanas o bots), cada una factura.</figcaption>
 </figure>
 
@@ -79,7 +79,7 @@ Así que no es "Armor/reCAPTCHA o un límite de gasto", son los tres juntos, en 
 De paso, evaluamos usar las cuotas nativas de Google Cloud, pero esas controlan otra cosa, la velocidad por minuto (cuántas peticiones o tokens por minuto), no el total por día ni por usuario, así que sirven de freno general, no del candado que buscábamos.
 
 <figure class="blog-figure">
-  <img src="/images/posts/mi-chatbot-puede-ser-atacado-denial-of-wallet/capas-defensa.png" alt="Diagrama de defensa en capas: Cloud Armor, reCAPTCHA, cuota de GCP y el backend con el tope de gasto como control crítico" loading="lazy" width="800" height="450">
+  <img src="/images/posts/mi-chatbot-puede-ser-atacado-denial-of-wallet/capas-defensa.jpg" alt="Diagrama de defensa en capas: Cloud Armor, reCAPTCHA, cuota de GCP y el backend con el tope de gasto como control crítico" loading="lazy" width="800" height="450">
   <figcaption><strong>Figura 2:</strong> La defensa en capas, Cloud Armor y reCAPTCHA filtran por fuente, la cuota de GCP frena por minuto, pero el control crítico contar y cortar por usuario/día vive en el backend.</figcaption>
 </figure>
 
