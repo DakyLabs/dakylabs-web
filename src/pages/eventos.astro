@@ -25,6 +25,31 @@ import AdsSidebar from "../components/AdsSidebar.astro";
           </p>
         </div>
 
+        <!-- Próximo evento -->
+        <section class="section" style="padding-top: 0;" aria-label="Próximo evento">
+          <div>
+            <div class="section-header" style="text-align:left; margin-bottom: 1.5rem;">
+              <span class="section-label">Próximo evento</span>
+              <h2>Este jueves.</h2>
+            </div>
+            <div class="evento-destacado glass-card">
+              <div class="evento-poster">
+                <Pic src="/images/eventos/arteialocal.jpg" alt="Póster: Hablemos de IA — Desconectados e inteligentes, IA local a prueba. Jueves 13 de agosto 7:30 PM, Comunidad JS Ecuador" loading="lazy" width="928" height="1152" />
+              </div>
+              <div class="evento-detalle">
+                <span class="badge">Comunidad JS Ecuador · Hablemos de IA</span>
+                <h3 class="evento-titulo">Desconectados e inteligentes: IA local a prueba</h3>
+                <p class="evento-cuando">🗓️ Jueves 13 de agosto · 🕢 7:30 PM · En vivo (LOCAL ONLY)</p>
+                <p class="evento-intro">Charla por Santino Suntaxi sobre correr IA sin depender de la nube. Incluye:</p>
+                <ul class="evento-extras">
+                  <li><strong>Demo en vivo:</strong> cómo correr modelos locales (Ollama, Phi-3, Gemma-2).</li>
+                  <li><strong>Debate abierto:</strong> el futuro de la IA sin la nube.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
     <!-- Invite info -->
     <section
       class="section"
@@ -234,5 +259,24 @@ import AdsSidebar from "../components/AdsSidebar.astro";
       width: 100%;
       justify-content: center;
     }
+  }
+
+  /* ── Próximo evento ─── */
+  .evento-destacado { display: flex; gap: 1.75rem; padding: 1.5rem; align-items: flex-start; }
+  .evento-poster { flex: 0 0 clamp(160px, 34%, 260px); }
+  .evento-poster img {
+    width: 100%; height: auto; display: block;
+    border-radius: var(--radius-md); border: 1px solid var(--border-subtle);
+  }
+  .evento-detalle { display: flex; flex-direction: column; gap: .6rem; }
+  .evento-titulo { font-size: clamp(1.2rem, 2.5vw, 1.6rem); line-height: 1.2; letter-spacing: -.02em; margin: .2rem 0 0; }
+  .evento-cuando { color: var(--text-secondary); font-weight: 600; margin: 0; }
+  .evento-intro { color: var(--text-secondary); margin: .2rem 0 0; }
+  .evento-extras { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .35rem; color: var(--text-secondary); }
+  .evento-extras li::marker { color: var(--accent); }
+  .evento-extras strong { color: var(--text-primary); }
+  @media (max-width: 768px) {
+    .evento-destacado { flex-direction: column; }
+    .evento-poster { flex: none; max-width: 320px; margin: 0 auto; }
   }
 </style>

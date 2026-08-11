@@ -26,3 +26,5 @@ pnpm-debug.log*
 
 # Claude Code — worktrees y datos de sesión
 .claude/
+ARTICULOS.md
+rag-dakylabs.md

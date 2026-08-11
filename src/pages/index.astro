@@ -53,6 +53,26 @@ const projects = [
       <div class="site-col-center">
         <Hero />
 
+    <!-- ══ PRÓXIMO EVENTO ════════════════════════════════════════ -->
+    <section class="section-inner proximo-evento" aria-labelledby="evento-heading">
+      <div class="section-header">
+        <span class="section-label">Próximo evento</span>
+        <h2 id="evento-heading">Nos vemos este jueves.</h2>
+      </div>
+      <a href="/eventos/" class="evento-card glass-card" aria-label="Hablemos de IA — IA local a prueba, jueves 13 de agosto 7:30 PM">
+        <div class="evento-poster">
+          <Pic src="/images/eventos/arteialocal.jpg" alt="Póster del evento Hablemos de IA — Desconectados e inteligentes: IA local a prueba, jueves 13 de agosto 7:30 PM, Comunidad JS Ecuador" loading="lazy" width="928" height="1152" />
+        </div>
+        <div class="evento-info">
+          <span class="badge">Comunidad JS Ecuador · Hablemos de IA</span>
+          <h3 class="evento-title">Desconectados e inteligentes: IA local a prueba</h3>
+          <p class="evento-when">🗓️ Jueves 13 de agosto · 🕢 7:30 PM · <strong>En vivo</strong></p>
+          <p class="evento-desc">Charla con demo en vivo (cómo correr modelos locales) y debate abierto sobre el futuro de la IA sin la nube.</p>
+          <span class="evento-cta">Ver detalles →</span>
+        </div>
+      </a>
+    </section>
+
     <!-- ══ POR CATEGORÍA ════════════════════════════════════════ -->
     {
       false && postsByCategory.length > 0 && (
@@ -917,6 +937,29 @@ const projects = [
     }
   }
 
+
+  /* ── Próximo evento ─────────────────────────────────── */
+  .proximo-evento { margin-top: 0.5rem; }
+  .evento-card {
+    display: flex; gap: 1.5rem; padding: 1.25rem; align-items: center;
+    text-decoration: none; color: inherit;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .evento-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .evento-poster { flex: 0 0 clamp(120px, 32%, 190px); }
+  .evento-poster img {
+    width: 100%; height: auto; display: block;
+    border-radius: var(--radius-md, 12px); border: 1px solid var(--border-subtle);
+  }
+  .evento-info { display: flex; flex-direction: column; gap: .5rem; }
+  .evento-title { font-size: 1.15rem; line-height: 1.25; letter-spacing: -.02em; margin: .1rem 0 0; }
+  .evento-when { font-size: .9rem; color: var(--text-secondary); margin: 0; }
+  .evento-desc { font-size: .92rem; color: var(--text-secondary); line-height: 1.6; margin: 0; }
+  .evento-cta { color: var(--accent); font-weight: 600; font-size: .92rem; margin-top: .1rem; }
+  @media (max-width: 768px) {
+    .evento-card { flex-direction: column; align-items: stretch; }
+    .evento-poster { flex: none; max-width: 280px; margin: 0 auto; }
+  }
 </style>
 
 <script is:inline>
