@@ -1,4 +1,5 @@
 ---
+import { evento } from "../data/evento";
 import Pic from "../components/Pic.astro";
 // src/pages/eventos.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -26,33 +27,36 @@ import AdsSidebar from "../components/AdsSidebar.astro";
         </div>
 
         <!-- Próximo evento -->
-        <section class="section" style="padding-top: 0;" aria-label="Próximo evento">
-          <div>
-            <div class="section-header" style="text-align:left; margin-bottom: 1.5rem;">
-              <span class="section-label">Próximo evento</span>
-              <h2>Este jueves.</h2>
-            </div>
-            <div class="evento-destacado glass-card">
-              <div class="evento-poster">
-                <Pic src="/images/eventos/arteialocal.jpg" alt="Póster: Hablemos de IA — Desconectados e inteligentes, IA local a prueba. Jueves 13 de agosto 7:30 PM, Comunidad JS Ecuador" loading="lazy" width="928" height="1152" />
+        {evento.activo && (
+          <section class="section" style="padding-top: 0;" aria-label="Próximo evento">
+            <div>
+              <div class="section-header" style="text-align:left; margin-bottom: 1.5rem;">
+                <span class="section-label">Próximo evento</span>
+                <h2>{evento.headingEventos}</h2>
               </div>
-              <div class="evento-detalle">
-                <span class="badge">Comunidad JS Ecuador · Hablemos de IA</span>
-                <h3 class="evento-titulo">Desconectados e inteligentes: IA local a prueba</h3>
-                <p class="evento-cuando">🗓️ Jueves 13 de agosto · 🕢 7:30 PM · En vivo (LOCAL ONLY)</p>
-                <p class="evento-intro">Charla por Santino Suntaxi sobre correr IA sin depender de la nube. Incluye:</p>
-                <ul class="evento-extras">
-                  <li><strong>Demo en vivo:</strong> cómo correr modelos locales (Ollama, Phi-3, Gemma-2).</li>
-                  <li><strong>Debate abierto:</strong> el futuro de la IA sin la nube.</li>
-                </ul>
-                <a href="https://t.me/javascriptecuador" target="_blank" rel="noopener noreferrer" class="btn btn-primary evento-cta-btn">
-                  Unirse al grupo de Telegram →
-                </a>
-                <p class="evento-nota">El enlace de la charla se publica en ese grupo el día del evento.</p>
+              <div class="evento-destacado glass-card">
+                <div class="evento-poster">
+                  <Pic src={evento.imagen} alt={`Póster: ${evento.titulo}. ${evento.fecha}, ${evento.hora}. ${evento.comunidad}`} loading="lazy" width={evento.ancho} height={evento.alto} />
+                </div>
+                <div class="evento-detalle">
+                  <span class="badge">{evento.comunidad}</span>
+                  <h3 class="evento-titulo">{evento.titulo}</h3>
+                  <p class="evento-cuando">🗓️ {evento.fecha} · 🕢 {evento.hora} · {evento.modalidad}</p>
+                  <p class="evento-intro">{evento.descripcion}{evento.extras.length ? " Incluye:" : ""}</p>
+                  <ul class="evento-extras">
+                    {evento.extras.map((ex) => (
+                      <li><strong>{ex.label}:</strong> {ex.texto}</li>
+                    ))}
+                  </ul>
+                  <a href={evento.ctaUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary evento-cta-btn">
+                    {evento.ctaTexto}
+                  </a>
+                  <p class="evento-nota">{evento.ctaNota}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
     <!-- Invite info -->
     <section

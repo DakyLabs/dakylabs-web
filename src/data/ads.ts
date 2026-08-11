@@ -1,5 +1,7 @@
 // src/data/ads.ts
 // Pon tus imágenes en /public/images/ads/ y edita los campos aquí.
+// El primer anuncio (evento) se toma de src/data/evento.ts.
+import { evento } from "./evento";
 
 export interface Ad {
   title: string;
@@ -8,11 +10,9 @@ export interface Ad {
 }
 
 export const ads: Ad[] = [
-  {
-    title: "Hablemos de IA · jueves 13 de agosto, 7:30 PM — únete al grupo de JS Ecuador para recibir el enlace de la charla",
-    image: "/images/eventos/arteialocal.jpg",
-    url: "https://t.me/javascriptecuador",
-  },
+  ...(evento.activo
+    ? [{ title: evento.anuncioTexto, image: evento.imagen, url: evento.ctaUrl }]
+    : []),
   {
     title: "Charlas y Talleres Flisol 2026, el evento de Software Libre en QUITO",
     image: "/images/ads/anuncio-02.JPG",
