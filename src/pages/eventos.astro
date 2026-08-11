@@ -45,6 +45,10 @@ import AdsSidebar from "../components/AdsSidebar.astro";
                   <li><strong>Demo en vivo:</strong> cómo correr modelos locales (Ollama, Phi-3, Gemma-2).</li>
                   <li><strong>Debate abierto:</strong> el futuro de la IA sin la nube.</li>
                 </ul>
+                <a href="https://t.me/javascriptecuador" target="_blank" rel="noopener noreferrer" class="btn btn-primary evento-cta-btn">
+                  Unirse al grupo de Telegram →
+                </a>
+                <p class="evento-nota">El enlace de la charla se publica en ese grupo el día del evento.</p>
               </div>
             </div>
           </div>
@@ -275,6 +279,8 @@ import AdsSidebar from "../components/AdsSidebar.astro";
   .evento-extras { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .35rem; color: var(--text-secondary); }
   .evento-extras li::marker { color: var(--accent); }
   .evento-extras strong { color: var(--text-primary); }
+  .evento-cta-btn { align-self: flex-start; margin-top: .5rem; }
+  .evento-nota { font-size: .85rem; color: var(--text-muted); margin: .3rem 0 0; }
   @media (max-width: 768px) {
     .evento-destacado { flex-direction: column; }
     .evento-poster { flex: none; max-width: 320px; margin: 0 auto; }
