@@ -9,9 +9,9 @@ export interface Ad {
 
 export const ads: Ad[] = [
   {
-    title: "Flisol Quito 2026, ya se viene el evento más grande de Software Libre en Ecuador",
-    image: "/images/ads/anuncio-01.JPG",
-    url: "https://flisol.info/",
+    title: "Hablemos de IA · jueves 13 de agosto, 7:30 PM — únete al grupo de JS Ecuador para recibir el enlace de la charla",
+    image: "/images/eventos/arteialocal.jpg",
+    url: "https://t.me/javascriptecuador",
   },
   {
     title: "Charlas y Talleres Flisol 2026, el evento de Software Libre en QUITO",
